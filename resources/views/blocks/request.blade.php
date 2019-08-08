@@ -31,4 +31,6 @@
             </div>
         </div>
     </div>
+
+    @include('telescope-toolbar::item', ['name' => 'request'])
 </div>

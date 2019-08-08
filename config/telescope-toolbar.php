@@ -13,4 +13,14 @@ return [
     */
     'enabled' => env('TELESCOPE_ENABLED', true),
 
+    /*
+    |--------------------------------------------------------------------------
+    | Replace Toolbar with Ajax Request
+    |--------------------------------------------------------------------------
+    |
+    | This options makes Ajax requests directly replace the current Toolbar
+    |
+    */
+    'replace' => true,
+
 ];

@@ -198,7 +198,9 @@
             tbody.insertBefore(row, null);
 
             var toolbarInfo = document.querySelector('.sf-toolbar-block-ajax .sf-toolbar-info');
-            toolbarInfo.scrollTop = toolbarInfo.scrollHeight;
+            if (toolbarInfo) {
+              toolbarInfo.scrollTop = toolbarInfo.scrollHeight;
+            }
 
             renderAjaxRequests();
         };
