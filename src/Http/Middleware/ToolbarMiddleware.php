@@ -2,8 +2,18 @@
 
 namespace Fruitcake\TelescopeToolbar\Http\Middleware;
 
+use Fruitcake\TelescopeToolbar\Toolbar;
+
 class ToolbarMiddleware
 {
+    private $toolbar;
+
+    public function __construct(Toolbar $toolbar)
+    {
+        $this->toolbar = $toolbar;
+    }
+
+
     /**
      * Handle the incoming request.
      *
@@ -13,6 +23,10 @@ class ToolbarMiddleware
      */
     public function handle($request, $next)
     {
-        return $next($request);
+        $response = $next($request);
+
+        $this->toolbar->injectToolbar($response);
+
+        return $response;
     }
 }
