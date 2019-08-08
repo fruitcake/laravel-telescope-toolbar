@@ -10,7 +10,7 @@ class ToolbarController extends Controller
 
     public function render($token)
     {
-        return View::make('laravel-telescope::toolbar', [
+        return View::make('telescope-toolbar::toolbar', [
             'token' => $token,
         ]);
     }

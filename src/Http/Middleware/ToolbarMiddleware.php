@@ -25,7 +25,9 @@ class ToolbarMiddleware
     {
         $response = $next($request);
 
-        $this->toolbar->injectToolbar($response);
+        if (!$request->is('_tt/*')) {
+            $this->toolbar->injectToolbar($response);
+        }
 
         return $response;
     }

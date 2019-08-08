@@ -25,8 +25,8 @@ class Toolbar
     {
         $content = $response->getContent();
 
-        $renderedContent = View::make('laravel-telescope::widget', [
-                'token' => $this,
+        $renderedContent = View::make('telescope-toolbar::widget', [
+                'token' => $this->getRequestToken(),
             ])->render();
 
         $pos = strripos($content, '</body>');
