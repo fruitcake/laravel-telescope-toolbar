@@ -3,9 +3,13 @@
 namespace Fruitcake\TelescopeToolbar;
 
 use Illuminate\Support\Facades\View;
+use Laravel\Telescope\IncomingEntry;
+use Laravel\Telescope\Telescope;
 
 class Toolbar
 {
+    protected $token = null;
+
     /**
      * Get an unique token for this request to tie the Ajax request to.
      *
@@ -13,7 +17,16 @@ class Toolbar
      */
     public function getDebugToken()
     {
-        return uniqid();  // TODO; make useful
+        if (!$this->token) {
+
+            $entry = IncomingEntry::make([])->type('toolbar');
+
+            Telescope::$entriesQueue[] = $entry;
+
+            $this->token = $entry->uuid;
+        }
+
+        return $this->token;
     }
 
 
@@ -36,7 +49,7 @@ class Toolbar
         // Inject headers in Ajax Requests
         if ($request->ajax()) {
             $response->header('x-debug-token', $this->getDebugToken());
-            $response->header('x-debug-token-link', route('telescope'));
+            $response->header('x-debug-token-link', route('telescope-toolbar.show', [$this->getDebugToken()]));
 
             if (config('telescope-toolbar.replace')) {
                 $response->header('Symfony-Debug-Toolbar-Replace', 1);
