@@ -7,7 +7,10 @@
 
 <div id="sfToolbarMainContent-{{ $token }}" class="sf-toolbarreset clear-fix" data-no-turbolink>
 
-    @include("telescope-toolbar::blocks.request")
+    @if($request)
+        @include("telescope-toolbar::blocks.request", ['entry' => $request])
+    @endif
+
     @include("telescope-toolbar::blocks.ajax")
 
     <a class="hide-button" id="sfToolbarHideButton-{{ $token }}" title="Close Toolbar" tabindex="-1" accesskey="D">

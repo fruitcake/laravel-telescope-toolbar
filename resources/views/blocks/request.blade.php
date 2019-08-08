@@ -1,36 +1,33 @@
-<div class="sf-toolbar-block sf-toolbar-block-request sf-toolbar-status-normal ">
-    <a href="#">
+<?php
+/** @var \Laravel\Telescope\EntryResult $entry */
+?>
+<div class="sf-toolbar-block sf-toolbar-block-request sf-toolbar-status-normal">
+    <a href="{{ route('telescope') }}/requests/{{ $entry->id }}">
         <div class="sf-toolbar-icon">
-            <span class="sf-toolbar-status sf-toolbar-status-green">200</span>
+            <span class="sf-toolbar-status sf-toolbar-status-green">{{ $entry->content['response_status'] }}</span>
             <span class="sf-toolbar-label"> @</span>
-            <span class="sf-toolbar-value sf-toolbar-info-piece-additional">{url}</span>
+            <span class="sf-toolbar-value sf-toolbar-info-piece-additional">{{ $entry->content['method'] }} {{ $entry->content['uri'] }}</span>
         </div>
     </a>
     <div class="sf-toolbar-info">
         <div class="sf-toolbar-info-group">
             <div class="sf-toolbar-info-piece">
                 <b>HTTP status</b>
-                <span>200 OK</span>
+                <span>{{ $entry->content['response_status'] }}</span>
+            </div>
+
+            <div class="sf-toolbar-info-piece">
+                <b>Request URI</b>
+                <span title="{{ $entry->content['uri'] }}">{{ $entry->content['method'] }} {{ $entry->content['uri'] }}</span>
             </div>
 
             <div class="sf-toolbar-info-piece">
                 <b>Controller</b>
                 <span>
-                    <a href="#" title="..">SomeController :: someAction</a>
+                    {{ $entry->content['controller_action'] }}
                 </span>
-            </div>
-
-            <div class="sf-toolbar-info-piece">
-                <b>Route name</b>
-                <span>{route name}</span>
-            </div>
-
-            <div class="sf-toolbar-info-piece">
-                <b>Has session</b>
-                <span>yes</span>
             </div>
         </div>
     </div>
 
-    @include('telescope-toolbar::item', ['name' => 'request'])
 </div>

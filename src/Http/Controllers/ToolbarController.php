@@ -21,8 +21,11 @@ class ToolbarController extends Controller
     {
         Telescope::stopRecording();
 
+        $options = $this->findBatchOptions($token);
+
         return View::make('telescope-toolbar::toolbar', [
             'token' => $token,
+            'request' =>  $request = $this->entries->get('request', $options)->first(),
         ]);
     }
 
@@ -30,7 +33,9 @@ class ToolbarController extends Controller
     {
         Telescope::stopRecording();
 
-        $request = $this->entries->get('request', $this->findBatchOptions($token))->first();
+        $options = $this->findBatchOptions($token);
+
+        $request = $this->entries->get('request', $options)->first();
 
         return redirect(route('telescope') . '/requests/' . $request->id);
     }
