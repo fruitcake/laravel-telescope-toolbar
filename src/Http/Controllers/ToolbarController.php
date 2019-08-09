@@ -3,6 +3,7 @@
 namespace Fruitcake\TelescopeToolbar\Http\Controllers;
 
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\View;
 use Laravel\Telescope\Contracts\EntriesRepository;
 use Laravel\Telescope\EntryResult;
@@ -27,6 +28,11 @@ class ToolbarController extends Controller
         $entry = $this->findToolbarEntry($token);
 
         View::share('token', $token);
+
+        Blade::directive('ttIcon', function ($expression) {
+            $dir = realpath(__DIR__ . '/../../../resources/icons');
+            return "<?php echo file_get_contents('$dir/' . basename($expression) . '.svg'); ?>";
+        });
 
         return View::make('telescope-toolbar::toolbar', [
             'request' =>  $this->getRequestData($token),
