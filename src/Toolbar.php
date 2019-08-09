@@ -13,6 +13,8 @@ class Toolbar
 
     protected $token = null;
 
+    protected $redirectToken = null;
+
     /**
      * Get an unique token for this request to tie the Ajax request to.
      *
@@ -24,16 +26,15 @@ class Toolbar
         if (!$this->token) {
 
             // Save a redirect token from the session
-            $redirectToken = null;
             if ($request->hasSession()) {
-                $redirectToken = $request->session()->pull(self::KEY_REDIRECT_TOKEN);
-                if ($redirectToken) {
+                $this->redirectToken = $request->session()->pull(self::KEY_REDIRECT_TOKEN);
+                if ($this->redirectToken) {
                     $request->session()->save();
                 }
             }
 
             $entry = IncomingEntry::make([
-                'redirect_token' => $redirectToken
+                'redirect_token' => $this->redirectToken
             ])->type('toolbar');
 
             Telescope::$entriesQueue[] = $entry;
@@ -78,15 +79,15 @@ class Toolbar
             return;
         }
 
-        if (
-            $response->headers->has('Content-Type')
-            &&  strpos($response->headers->get('Content-Type'), 'html') !== false
-            && $request->getRequestFormat() === 'html'
-            && $response->getContent()
+        // Skip non-html requests
+        if (($response->headers->has('Content-Type') && strpos($response->headers->get('Content-Type'), 'html') === false)
+            || $request->getRequestFormat() !== 'html'
+            || stripos($response->headers->get('Content-Disposition'), 'attachment;') !== false
         ) {
-            $this->injectToolbar($request, $response);
             return;
         }
+
+        $this->injectToolbar($request, $response);
     }
 
     /**
@@ -99,10 +100,11 @@ class Toolbar
     {
         $content = $response->getContent();
 
+        $token = $this->getDebugToken($request);
+
         $renderedContent = View::make('telescope-toolbar::widget', [
-                'token' => $this->getDebugToken($request),
-                'statusCode' => $response->getStatusCode(),
-                'duration' => defined('LARAVEL_START') ? floor((microtime(true) - LARAVEL_START) * 1000) : null,
+                'token' => $token,
+                'requestStack' => $this->getRequestStack($request, $response),
                 'excluded_ajax_paths' => '^/_tt'
             ])->render();
 
@@ -114,5 +116,32 @@ class Toolbar
         }
 
         $response->setContent($content);
+    }
+
+    /**
+     * Get the Request Stack
+     *
+     * @param \Illuminate\Http\Request $request A Request instance
+     * @param \Illuminate\Http\Response $response A Response instance
+     * @return array
+     */
+    protected function getRequestStack($request, $response) : array
+    {
+        $token = $this->getDebugToken($request);
+
+        $current = [
+            'error' => $response->getStatusCode() >= 500,
+            'duration' => defined('LARAVEL_START') ? floor((microtime(true) - LARAVEL_START) * 1000) : 1,
+            'statusCode' => $response->getStatusCode(),
+            'url' => '/' . ltrim($request->path(). '/'),
+            'method' => $request->method(),
+            'profile' => $token,
+            'profilerUrl' => route('telescope-toolbar.show', ['token' => $token]),
+            'type' => 'doc',
+        ];
+
+        return [
+            $current,
+        ];
     }
 }

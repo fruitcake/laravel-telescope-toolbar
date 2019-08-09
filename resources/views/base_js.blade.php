@@ -265,7 +265,7 @@
                 var profilerLink = document.createElement('a');
                 profilerLink.setAttribute('href', request.statusCode < 400 ? request.profilerUrl : request.profilerUrl + '?panel=exception');
                 profilerLink.setAttribute('target', '_profiler');
-                profilerLink.textContent = request.profile;
+                profilerLink.textContent = 'View';
                 profilerCell.appendChild(profilerLink);
             }
 
@@ -346,7 +346,7 @@
                 if (!path.match(new RegExp(@json($excluded_ajax_paths)))) {
                     var stackElement = {
                         error: false,
-                        url: url,
+                        url: path,
                         method: method,
                         type: 'xhr',
                         start: new Date()
