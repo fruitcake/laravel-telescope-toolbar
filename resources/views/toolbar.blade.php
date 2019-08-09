@@ -9,6 +9,7 @@
 
     @if($request)
         @include("telescope-toolbar::collector.request", ['request' => $request])
+        @include("telescope-toolbar::collector.security", ['request' => $request])
     @endif
 
     @include("telescope-toolbar::collector.ajax")

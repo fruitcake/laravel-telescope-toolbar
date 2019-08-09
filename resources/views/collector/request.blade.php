@@ -14,11 +14,9 @@ if ($statusCode > 400) {
 @component('telescope-toolbar::item', ['name' => 'request', 'link' => true])
 
     @slot('icon')
-        <div class="sf-toolbar-icon">
-            <span class="sf-toolbar-status sf-toolbar-status-{{ $statusColor }}">{{ $statusCode }}</span>
-            <span class="sf-toolbar-label"> @</span>
-            <span class="sf-toolbar-value sf-toolbar-info-piece-additional">{{ $request['method'] }} {{ $request['uri'] }}</span>
-        </div>
+        <span class="sf-toolbar-status sf-toolbar-status-{{ $statusColor }}">{{ $statusCode }}</span>
+        <span class="sf-toolbar-label"> @</span>
+        <span class="sf-toolbar-value sf-toolbar-info-piece-additional">{{ $request['method'] }} {{ $request['uri'] }}</span>
     @endslot
 
     @slot('text')
