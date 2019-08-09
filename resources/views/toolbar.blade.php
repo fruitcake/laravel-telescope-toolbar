@@ -14,12 +14,13 @@
         @include("telescope-toolbar::collectors.time", ['data' => $request ?? []])
     @endif
 
-        @include("telescope-toolbar::collectors.ajax")
+
 
     @if($database)
         @include("telescope-toolbar::collectors.database", ['data' => $database])
     @endif
 
+    @include("telescope-toolbar::collectors.ajax")
     @include("telescope-toolbar::collectors.config")
 
     <a class="hide-button" id="sfToolbarHideButton-{{ $token }}" title="Close Toolbar" tabindex="-1" accesskey="D">
