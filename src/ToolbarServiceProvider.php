@@ -16,7 +16,7 @@ class ToolbarServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        if (! config('telescope.enabled') || ! config('telescope-toolbar.enabled')) {
+        if (! config('telescope.enabled') || ! config('telescope-toolbar.enabled') || ! config('app.debug')) {
             return;
         }
 

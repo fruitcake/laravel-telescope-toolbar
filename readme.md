@@ -6,8 +6,6 @@
 ### Extends Laravel Telescope to provide a simple Toolbar
 See https://github.com/laravel/telescope
 
-![image](https://user-images.githubusercontent.com/973269/62765463-75726900-ba90-11e9-85d7-38aaa69d9cee.png)
-
 #### Install
 
 Just install the package with Composer and it will register automatically:
@@ -15,6 +13,8 @@ Just install the package with Composer and it will register automatically:
 ```bash
 composer require fruitcake/laravel-telescope-toolbar:1.x@dev --dev
 ```
+
+The Toolbar will show by default when Telescope is enabled on APP_DEBUG is true.
 
 #### Current Features
 

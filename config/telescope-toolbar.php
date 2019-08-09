@@ -8,7 +8,7 @@ return [
     |--------------------------------------------------------------------------
     |
     | This options disables the toolbar. Laravel Telescope needs to be
-    | enabled also.
+    | enabled and Laravel needs to be in Debug mode.
     |
     */
     'enabled' => env('TELESCOPE_ENABLED', true),
