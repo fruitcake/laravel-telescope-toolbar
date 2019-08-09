@@ -26,10 +26,9 @@ class ToolbarController extends Controller
 
         View::share('token', $token);
 
-        $request = $this->entries->get('request', $options)->first();
-
         return View::make('telescope-toolbar::toolbar', [
-            'request' =>  $request ? $request->content : null,
+            'request' =>  $this->getRequestData($options),
+            'database' => $this->getDatabaseData($options),
         ]);
     }
 
@@ -58,6 +57,36 @@ class ToolbarController extends Controller
     protected function findBatchOptions($token) : EntryQueryOptions
     {
         return (new EntryQueryOptions())->batchId($this->findRequestId($token));
+    }
+
+    protected function getRequestData($options)
+    {
+        $request = $this->entries->get('request', $options)->first();
+
+        if ($request) {
+            return $request->content;
+        }
+    }
+
+    protected function getDatabaseData($options)
+    {
+        $queries =  $this->entries->get('query', $options);
+
+        $data = [
+            'num_queries' => 0,
+            'num_slow' => 0,
+            'query_time' => 0,
+        ];
+
+        foreach ($queries as $query) {
+            $data['num_queries']++;
+            if ($query->content['slow'] ?? false) {
+                $data['num_slow']++;
+            }
+            $data['query_time'] += $query->content['time'] ?? 0;
+        }
+
+        return $data;
     }
 
 }

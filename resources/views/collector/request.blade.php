@@ -1,7 +1,5 @@
 <?php
-/** @var \Laravel\Telescope\EntryResult $entry */
-
-$statusCode = $request['response_status'];
+$statusCode = $data['response_status'];
 if ($statusCode > 400) {
     $statusColor = 'red';
 } elseif ($statusCode > 300) {
@@ -16,7 +14,7 @@ if ($statusCode > 400) {
     @slot('icon')
         <span class="sf-toolbar-status sf-toolbar-status-{{ $statusColor }}">{{ $statusCode }}</span>
         <span class="sf-toolbar-label"> @</span>
-        <span class="sf-toolbar-value sf-toolbar-info-piece-additional">{{ $request['method'] }} {{ $request['uri'] }}</span>
+        <span class="sf-toolbar-value sf-toolbar-info-piece-additional">{{ $data['method'] }} {{ $data['uri'] }}</span>
     @endslot
 
     @slot('text')
@@ -26,22 +24,22 @@ if ($statusCode > 400) {
                 <span>{{ $statusCode }}</span>
             </div>
 
-            @if($request['method'] !== 'GET')
+            @if($data['method'] !== 'GET')
             <div class="sf-toolbar-info-piece">
                 <b>Method</b>
-                <span>{{ $request['method'] }}</span>
+                <span>{{ $data['method'] }}</span>
             </div>
             @endif
 
             <div class="sf-toolbar-info-piece">
                 <b>Request URI</b>
-                <span title="{{ $request['uri'] }}">{{ $request['method'] }} {{ $request['uri'] }}</span>
+                <span title="{{ $data['uri'] }}">{{ $data['method'] }} {{ $data['uri'] }}</span>
             </div>
 
             <div class="sf-toolbar-info-piece">
                 <b>Controller Action</b>
                 <span>
-                    {{ $request['controller_action'] }}
+                    {{ $data['controller_action'] }}
                 </span>
             </div>
 
