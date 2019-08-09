@@ -20,6 +20,7 @@ The Toolbar will show by default when Telescope is enabled on APP_DEBUG is true.
 
  - Inject Toolbar for quick info
  - Register Ajax requests and update info
+ - Show redirects
  - Link to related Telescope Entry
  - Supported Collectors:
     * Request
@@ -32,7 +33,6 @@ The Toolbar will show by default when Telescope is enabled on APP_DEBUG is true.
 Target is to support all tabs from Telescope that can be connected to the current 'batch'. So Cache, Mails, Exceptions etc.
 
 Missing features
- - Show redirects
  - Toggle ajax requests?
  - Missing collectors
 

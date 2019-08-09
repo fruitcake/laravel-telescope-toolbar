@@ -5,12 +5,14 @@ namespace Fruitcake\TelescopeToolbar\Http\Controllers;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\View;
 use Laravel\Telescope\Contracts\EntriesRepository;
+use Laravel\Telescope\EntryResult;
+use Laravel\Telescope\IncomingEntry;
 use Laravel\Telescope\Storage\EntryQueryOptions;
 use Laravel\Telescope\Telescope;
 
 class ToolbarController extends Controller
 {
-    protected $requestId;
+    protected $entry = [];
     protected $entries;
 
     public function __construct(EntriesRepository $entriesRepository)
@@ -22,13 +24,14 @@ class ToolbarController extends Controller
     {
         Telescope::stopRecording();
 
-        $options = $this->findBatchOptions($token);
+        $entry = $this->findToolbarEntry($token);
 
         View::share('token', $token);
 
         return View::make('telescope-toolbar::toolbar', [
-            'request' =>  $this->getRequestData($options),
-            'database' => $this->getDatabaseData($options),
+            'request' =>  $this->getRequestData($token),
+            'database' => $this->getDatabaseData($token),
+            'redirect' => $this->getRequestData($entry->content['redirect_token'] ?? null),
         ]);
     }
 
@@ -43,33 +46,40 @@ class ToolbarController extends Controller
         return redirect(route('telescope') . '/requests/' . $request->id);
     }
 
-    protected function findRequestId($token) : string
+    protected function findToolbarEntry($token) : EntryResult
     {
-        if ($this->requestId === null) {
-            $entry = $this->entries->find($token);
-
-            $this->requestId = $entry->batchId;
+        if (!isset($this->entry[$token])) {
+            $this->entry[$token] = $this->entries->find($token);
         }
 
-        return $this->requestId;
+        return $this->entry[$token];
     }
 
     protected function findBatchOptions($token) : EntryQueryOptions
     {
-        return (new EntryQueryOptions())->batchId($this->findRequestId($token));
+        return (new EntryQueryOptions())->batchId($this->findToolbarEntry($token)->batchId);
     }
 
-    protected function getRequestData($options)
+    protected function getRequestData($token)
     {
+        if (!$token) {
+            return;
+        }
+
+        $options = $this->findBatchOptions($token);
+
         $request = $this->entries->get('request', $options)->first();
 
         if ($request) {
+            $request->content['token'] = $token;
             return $request->content;
         }
     }
 
-    protected function getDatabaseData($options)
+    protected function getDatabaseData($token)
     {
+        $options = $this->findBatchOptions($token);
+
         $queries =  $this->entries->get('query', $options);
 
         $data = [

@@ -43,16 +43,16 @@ if ($statusCode > 400) {
                 </span>
             </div>
 
-            @if(isset($redirect_handler))
+            @if($redirect)
             <div class="sf-toolbar-info-group">
                 <div class="sf-toolbar-info-piece">
                     <b>
-                        <span class="sf-toolbar-redirection-status sf-toolbar-status-yellow">{{ $redirect_status_code }}</span>
+                        <span class="sf-toolbar-redirection-status sf-toolbar-status-yellow">{{ $redirect['response_status'] }}</span>
                         Redirect from
                     </b>
                     <span>
-                        {{ $redirect_handler }}
-                        (<a href="{{ route('telescope-toolbar.show', ['token' => $redirect_token, 'panel' => $name]) }}" target="_telescope">{{ $redirect_token }}</a>)
+                        {{ $redirect['uri'] }}
+                        (<a href="{{ route('telescope-toolbar.show', ['token' => $redirect['token']]) }}" target="_telescope">{{ $redirect['token'] }}</a>)
                     </span>
                 </div>
             </div>

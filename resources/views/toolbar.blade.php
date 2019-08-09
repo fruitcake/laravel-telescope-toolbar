@@ -10,7 +10,7 @@
 <div id="sfToolbarMainContent-{{ $token }}" class="sf-toolbarreset clear-fix" data-no-turbolink>
 
     @if($request)
-        @include("telescope-toolbar::collector.request", ['data' => $request])
+        @include("telescope-toolbar::collector.request", ['data' => $request, 'redirect' => $redirect])
         @include("telescope-toolbar::collector.security", ['data' => $request['user'] ?? []])
     @endif
 
