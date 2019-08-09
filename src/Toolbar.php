@@ -101,6 +101,8 @@ class Toolbar
 
         $renderedContent = View::make('telescope-toolbar::widget', [
                 'token' => $this->getDebugToken($request),
+                'statusCode' => $response->getStatusCode(),
+                'duration' => defined('LARAVEL_START') ? floor((microtime(true) - LARAVEL_START) * 1000) : null,
                 'excluded_ajax_paths' => '^/_tt'
             ])->render();
 

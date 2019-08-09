@@ -1,4 +1,4 @@
-@component('telescope-toolbar::item', ['name' => 'ajax', 'additional_classes' => 'sf-toolbar-block-right'])
+@component('telescope-toolbar::item', ['name' => 'ajax'])
 
     @slot('icon')
 

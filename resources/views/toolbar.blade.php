@@ -8,19 +8,19 @@
 
 <div id="sfToolbarMainContent-{{ $token }}" class="sf-toolbarreset clear-fix" data-no-turbolink>
 
+    @include("telescope-toolbar::collectors.ajax")
+
     @if($request)
         @include("telescope-toolbar::collectors.request", ['data' => $request, 'redirect' => $redirect])
         @include("telescope-toolbar::collectors.user", ['data' => $request['user'] ?? []])
         @include("telescope-toolbar::collectors.time", ['data' => $request ?? []])
     @endif
 
-
-
     @if($database)
         @include("telescope-toolbar::collectors.database", ['data' => $database])
     @endif
 
-    @include("telescope-toolbar::collectors.ajax")
+
     @include("telescope-toolbar::collectors.config")
 
     <a class="hide-button" id="sfToolbarHideButton-{{ $token }}" title="Close Toolbar" tabindex="-1" accesskey="D">

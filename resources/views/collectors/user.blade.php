@@ -8,14 +8,16 @@
     @endslot
 
     @slot('text')
-        <div class="sf-toolbar-info-group">
-            @foreach ($data as $key => $value)
-                <div class="sf-toolbar-info-piece">
-                    <b>{{ $key }}</b>
-                    <span>{{ $value }}</span>
-                </div>
-           @endforeach
-        </div>
+        @if($data)
+            <div class="sf-toolbar-info-group">
+                @foreach ($data as $key => $value)
+                    <div class="sf-toolbar-info-piece">
+                        <b>{{ $key }}</b>
+                        <span>{{ $value }}</span>
+                    </div>
+               @endforeach
+            </div>
+        @endif
     @endslot
 
 @endcomponent

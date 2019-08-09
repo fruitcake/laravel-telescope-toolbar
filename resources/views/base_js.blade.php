@@ -107,7 +107,7 @@
 
             var infoSpan = document.querySelector(".sf-toolbar-ajax-info");
             if (infoSpan) {
-                infoSpan.textContent = requestStack.length + ' AJAX request' + (requestStack.length !== 1 ? 's' : '');
+                infoSpan.textContent = requestStack.length + ' Request' + (requestStack.length !== 1 ? 's' : '');
             }
 
             var ajaxToolbarPanel = document.querySelector('.sf-toolbar-block-ajax');
@@ -264,6 +264,7 @@
                 profilerCell.textContent = '';
                 var profilerLink = document.createElement('a');
                 profilerLink.setAttribute('href', request.statusCode < 400 ? request.profilerUrl : request.profilerUrl + '?panel=exception');
+                profilerLink.setAttribute('target', '_profiler');
                 profilerLink.textContent = request.profile;
                 profilerCell.appendChild(profilerLink);
             }
@@ -388,6 +389,8 @@
             addEventListener: addEventListener,
 
             request: request,
+
+            requestStack: requestStack,
 
             renderAjaxRequests: renderAjaxRequests,
 
