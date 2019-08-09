@@ -1,7 +1,7 @@
 {
   "name": "fruitcake/laravel-telescope-toolbar",
   "description": "Toolbar for Laravel Telescope based on Symfony Web Profiler",
-  "keywords": ["laravel", "telescope", "toolbar",  "debugbar", "profiler", "debug", "webprofiler",],
+  "keywords": ["laravel", "telescope", "toolbar",  "debugbar", "profiler", "debug", "webprofiler"],
   "license": "MIT",
   "authors": [
     {
