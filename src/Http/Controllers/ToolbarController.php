@@ -23,8 +23,9 @@ class ToolbarController extends Controller
 
         $options = $this->findBatchOptions($token);
 
+        View::share('token', $token);
+
         return View::make('telescope-toolbar::toolbar', [
-            'token' => $token,
             'request' =>  $request = $this->entries->get('request', $options)->first(),
         ]);
     }

@@ -1,19 +1,31 @@
 <?php
 /** @var \Laravel\Telescope\EntryResult $entry */
+
+$statusCode = $entry->content['response_status'];
+if ($statusCode > 400) {
+    $statusColor = 'red';
+} elseif ($statusCode > 300) {
+    $statusColor = 'yellow';
+} else {
+    $statusColor = 'green';
+}
 ?>
-<div class="sf-toolbar-block sf-toolbar-block-request sf-toolbar-status-normal">
-    <a href="{{ route('telescope') }}/requests/{{ $entry->id }}">
+
+@component('telescope-toolbar::item', ['name' => 'request', 'link' => true])
+
+    @slot('icon')
         <div class="sf-toolbar-icon">
-            <span class="sf-toolbar-status sf-toolbar-status-green">{{ $entry->content['response_status'] }}</span>
+            <span class="sf-toolbar-status sf-toolbar-status-{{ $statusColor }}">{{ $statusCode }}</span>
             <span class="sf-toolbar-label"> @</span>
             <span class="sf-toolbar-value sf-toolbar-info-piece-additional">{{ $entry->content['method'] }} {{ $entry->content['uri'] }}</span>
         </div>
-    </a>
-    <div class="sf-toolbar-info">
+    @endslot
+
+    @slot('text')
         <div class="sf-toolbar-info-group">
             <div class="sf-toolbar-info-piece">
                 <b>HTTP status</b>
-                <span>{{ $entry->content['response_status'] }}</span>
+                <span>{{ $statusCode }}</span>
             </div>
 
             <div class="sf-toolbar-info-piece">
@@ -28,6 +40,6 @@
                 </span>
             </div>
         </div>
-    </div>
+    @endslot
 
-</div>
+@endcomponent
