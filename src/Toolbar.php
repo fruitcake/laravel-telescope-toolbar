@@ -9,7 +9,8 @@ use Laravel\Telescope\Telescope;
 
 class Toolbar
 {
-    private const KEY_REDIRECT_TOKEN = '_tt_redirect_token';
+    private const KEY_REDIRECT_TOKEN = '_tt.redirect_token';
+    private const KEY_REQUEST_STACK = '_tt.request_stack';
 
     protected $token = null;
 
@@ -57,12 +58,7 @@ class Toolbar
         }
 
         if ($response->isRedirection()) {
-
-            if ($request->hasSession()) {
-                $request->session()->put(self::KEY_REDIRECT_TOKEN, $this->getDebugToken($request));
-                $request->session()->save();
-            }
-
+            $this->storeRedirectRequest($request, $response);
             return;
         }
 
@@ -88,6 +84,22 @@ class Toolbar
         }
 
         $this->injectToolbar($request, $response);
+    }
+
+    /**
+     * Store the current Request in the the session
+     *
+     * @param \Illuminate\Http\Request $request A Request instance
+     * @param \Illuminate\Http\Response $response A Response instance
+     */
+    protected function storeRedirectRequest($request, $response)
+    {
+        if ($request->hasSession()) {
+            $requestStack = $this->getRequestStack($request, $response);
+            $request->session()->put(self::KEY_REQUEST_STACK, $requestStack);
+            $request->session()->put(self::KEY_REDIRECT_TOKEN, $this->getDebugToken($request));
+            $request->session()->save();
+        }
     }
 
     /**
@@ -125,11 +137,34 @@ class Toolbar
      * @param \Illuminate\Http\Response $response A Response instance
      * @return array
      */
-    protected function getRequestStack($request, $response) : array
+    protected function getRequestStack($request, $response): array
+    {
+        if ($request->hasSession()) {
+            $requestStack = $request->session()->pull(self::KEY_REQUEST_STACK, []);
+            if ($requestStack) {
+                $request->session()->save();
+            }
+        } else {
+            $requestStack = [];
+        }
+
+        $requestStack[] = $this->getRequestData($request, $response);
+
+        return $requestStack;
+    }
+
+    /**
+     * Get the Request data
+     *
+     * @param \Illuminate\Http\Request $request A Request instance
+     * @param \Illuminate\Http\Response $response A Response instance
+     * @return array
+     */
+    protected function getRequestData($request, $response) : array
     {
         $token = $this->getDebugToken($request);
 
-        $current = [
+        return [
             'error' => $response->getStatusCode() >= 500,
             'duration' => defined('LARAVEL_START') ? floor((microtime(true) - LARAVEL_START) * 1000) : 1,
             'statusCode' => $response->getStatusCode(),
@@ -137,11 +172,7 @@ class Toolbar
             'method' => $request->method(),
             'profile' => $token,
             'profilerUrl' => route('telescope-toolbar.show', ['token' => $token]),
-            'type' => 'doc',
-        ];
-
-        return [
-            $current,
+            'type' => $response->isRedirection() ? 'other' : 'doc',
         ];
     }
 }
