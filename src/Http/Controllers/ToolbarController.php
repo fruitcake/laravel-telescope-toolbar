@@ -10,6 +10,7 @@ use Laravel\Telescope\Telescope;
 
 class ToolbarController extends Controller
 {
+    protected $requestId;
     protected $entries;
 
     public function __construct(EntriesRepository $entriesRepository)
@@ -25,8 +26,10 @@ class ToolbarController extends Controller
 
         View::share('token', $token);
 
+        $request = $this->entries->get('request', $options)->first();
+
         return View::make('telescope-toolbar::toolbar', [
-            'request' =>  $request = $this->entries->get('request', $options)->first(),
+            'request' =>  $request ? $request->content : null,
         ]);
     }
 
@@ -41,11 +44,20 @@ class ToolbarController extends Controller
         return redirect(route('telescope') . '/requests/' . $request->id);
     }
 
+    protected function findRequestId($token) : string
+    {
+        if ($this->requestId === null) {
+            $entry = $this->entries->find($token);
+
+            $this->requestId = $entry->batchId;
+        }
+
+        return $this->requestId;
+    }
+
     protected function findBatchOptions($token) : EntryQueryOptions
     {
-        $entry = $this->entries->find($token);
-
-        return (new EntryQueryOptions())->batchId($entry->batchId);
+        return (new EntryQueryOptions())->batchId($this->findRequestId($token));
     }
 
 }

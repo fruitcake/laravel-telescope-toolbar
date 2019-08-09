@@ -8,7 +8,7 @@
 <div id="sfToolbarMainContent-{{ $token }}" class="sf-toolbarreset clear-fix" data-no-turbolink>
 
     @if($request)
-        @include("telescope-toolbar::collector.request", ['entry' => $request])
+        @include("telescope-toolbar::collector.request", ['request' => $request])
     @endif
 
     @include("telescope-toolbar::collector.ajax")
