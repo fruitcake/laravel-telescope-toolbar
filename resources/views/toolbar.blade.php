@@ -11,6 +11,7 @@
     @if($request)
         @include("telescope-toolbar::collectors.request", ['data' => $request, 'redirect' => $redirect])
         @include("telescope-toolbar::collectors.user", ['data' => $request['user'] ?? []])
+        @include("telescope-toolbar::collectors.time", ['data' => $request ?? []])
     @endif
 
         @include("telescope-toolbar::collectors.ajax")

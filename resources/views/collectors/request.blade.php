@@ -43,6 +43,20 @@ if ($statusCode > 400) {
                 </span>
             </div>
 
+            <div class="sf-toolbar-info-piece">
+                <b>Middleware</b>
+                <span>
+                    {{ implode(', ', $data['middleware']) }}
+                </span>
+            </div>
+
+            <div class="sf-toolbar-info-piece">
+                <b>Response</b>
+                <span>
+                    {{ $data['response'] }}
+                </span>
+            </div>
+
             @if($redirect)
             <div class="sf-toolbar-info-group">
                 <div class="sf-toolbar-info-piece">
