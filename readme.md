@@ -16,6 +16,9 @@ composer require fruitcake/laravel-telescope-toolbar:1.x@dev --dev
 
 The Toolbar will show by default when Telescope is enabled on APP_DEBUG is true.
 
+![image](https://user-images.githubusercontent.com/973269/62776864-0acf2680-baac-11e9-88ba-bac82ce9fa7e.png)
+
+
 #### Current Features
 
  - Inject Toolbar for quick info
