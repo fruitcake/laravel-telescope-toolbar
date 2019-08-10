@@ -1,3 +1,9 @@
+<?php
+/** @var \Illuminate\Support\Collection|\Laravel\Telescope\EntryResult[] $entries */
+$data = $entries->first()->content;
+
+?>
+
 @component('telescope-toolbar::item', ['name' => 'user', 'link' => true])
 
     @slot('icon')

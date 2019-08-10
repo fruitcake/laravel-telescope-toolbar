@@ -10,14 +10,14 @@
 
     @include("telescope-toolbar::collectors.ajax")
 
-    @if($request)
-        @include("telescope-toolbar::collectors.request", ['data' => $request, 'redirect' => $redirect])
-        @include("telescope-toolbar::collectors.user", ['data' => $request['user'] ?? []])
-        @include("telescope-toolbar::collectors.time", ['data' => $request ?? []])
+    @if(isset($entries['request']))
+        @include("telescope-toolbar::collectors.request", ['entries' => $entries['request']])
+        @include("telescope-toolbar::collectors.user", ['entries' => $entries['request']])
+        @include("telescope-toolbar::collectors.time", ['entries' => $entries['request']])
     @endif
 
-    @if($database)
-        @include("telescope-toolbar::collectors.database", ['data' => $database])
+    @if(isset($entries['query']))
+        @include("telescope-toolbar::collectors.database", ['entries' => $entries['query']])
     @endif
 
 

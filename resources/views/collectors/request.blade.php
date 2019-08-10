@@ -1,4 +1,7 @@
 <?php
+/** @var \Illuminate\Support\Collection|\Laravel\Telescope\EntryResult[] $entries */
+$data = $entries->first()->content;
+
 $statusCode = $data['response_status'];
 if ($statusCode > 400) {
     $statusColor = 'red';
@@ -50,20 +53,6 @@ if ($statusCode > 400) {
                 </span>
             </div>
 
-            @if($redirect)
-            <div class="sf-toolbar-info-group">
-                <div class="sf-toolbar-info-piece">
-                    <b>
-                        <span class="sf-toolbar-redirection-status sf-toolbar-status-yellow">{{ $redirect['response_status'] }}</span>
-                        Redirect from
-                    </b>
-                    <span>
-                        {{ $redirect['uri'] }}
-                        (<a href="{{ route('telescope-toolbar.show', ['token' => $redirect['token']]) }}" target="_telescope">{{ $redirect['token'] }}</a>)
-                    </span>
-                </div>
-            </div>
-            @endif
         </div>
     @endslot
 

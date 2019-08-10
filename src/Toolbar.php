@@ -19,33 +19,35 @@ class Toolbar
     /**
      * Get an unique token for this request to tie the Ajax request to.
      *
-     * @param \Illuminate\Http\Request $request A Request instance
      * @return string
      */
-    public function getDebugToken($request)
+    public function getDebugToken()
     {
         if (!$this->token) {
-
-            // Save a redirect token from the session
-            if ($request->hasSession()) {
-                $this->redirectToken = $request->session()->pull(self::KEY_REDIRECT_TOKEN);
-                if ($this->redirectToken) {
-                    $request->session()->save();
-                }
-            }
-
-            $entry = IncomingEntry::make([
-                'redirect_token' => $this->redirectToken
-            ])->type('toolbar');
-
-            Telescope::$entriesQueue[] = $entry;
-
-            $this->token = (string) $entry->uuid;
+            $this->token = $this->findOrCreateEntryUuid();
         }
 
         return $this->token;
     }
 
+    /**
+     * We only need 1 UUID of an Entry from the current Request batch. If not available, create one
+     *
+     * @return string
+     */
+    protected function findOrCreateEntryUuid()
+    {
+        // Use the first one if available
+        if (isset(Telescope::$entriesQueue[0])) {
+            $entry = Telescope::$entriesQueue[0];
+        } else {
+            // Create our own entry
+            $entry = IncomingEntry::make([])->type('toolbar');
+            Telescope::$entriesQueue[] = $entry;
+        }
+
+        return (string) $entry->uuid;
+    }
 
     /**
      * @param \Illuminate\Http\Request $request A Request instance
@@ -97,7 +99,6 @@ class Toolbar
         if ($request->hasSession()) {
             $requestStack = $this->getRequestStack($request, $response);
             $request->session()->put(self::KEY_REQUEST_STACK, $requestStack);
-            $request->session()->put(self::KEY_REDIRECT_TOKEN, $this->getDebugToken($request));
             $request->session()->save();
         }
     }
@@ -112,7 +113,7 @@ class Toolbar
     {
         $content = $response->getContent();
 
-        $token = $this->getDebugToken($request);
+        $token = $this->getDebugToken();
 
         $renderedContent = View::make('telescope-toolbar::widget', [
                 'token' => $token,
@@ -162,13 +163,14 @@ class Toolbar
      */
     protected function getRequestData($request, $response) : array
     {
-        $token = $this->getDebugToken($request);
+        $token = $this->getDebugToken();
+        $path = $request->path();
 
         return [
             'error' => $response->getStatusCode() >= 500,
             'duration' => defined('LARAVEL_START') ? floor((microtime(true) - LARAVEL_START) * 1000) : 1,
             'statusCode' => $response->getStatusCode(),
-            'url' => '/' . ltrim($request->path(). '/'),
+            'url' =>  $path === '/' ? $path  : '/' . $path,
             'method' => $request->method(),
             'profile' => $token,
             'profilerUrl' => route('telescope-toolbar.show', ['token' => $token]),
