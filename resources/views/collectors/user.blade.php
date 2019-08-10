@@ -1,6 +1,6 @@
 <?php
 /** @var \Illuminate\Support\Collection|\Laravel\Telescope\EntryResult[] $entries */
-$data = $entries->first()->content->user ?? [];
+$data = $entries->first()->content['user'] ?? [];
 
 ?>
 
@@ -17,10 +17,12 @@ $data = $entries->first()->content->user ?? [];
         @if($data)
             <div class="sf-toolbar-info-group">
                 @foreach ($data as $key => $value)
-                    <div class="sf-toolbar-info-piece">
-                        <b>{{ $key }}</b>
-                        <span>{{ $value }}</span>
-                    </div>
+                    @if (!empty($value))
+                        <div class="sf-toolbar-info-piece">
+                            <b>{{ $key }}</b>
+                            <span>{{ $value }}</span>
+                        </div>
+                    @endif
                @endforeach
             </div>
         @endif
