@@ -17,7 +17,11 @@
     @endif
 
     @if(isset($entries['query']))
-        @include("telescope-toolbar::collectors.database", ['entries' => $entries['query']])
+        @include("telescope-toolbar::collectors.queries", ['entries' => $entries['query']])
+    @endif
+
+    @if(isset($entries['cache']))
+        @include("telescope-toolbar::collectors.cache", ['entries' => $entries['cache']])
     @endif
 
 

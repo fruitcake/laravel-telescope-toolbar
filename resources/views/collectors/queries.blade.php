@@ -16,7 +16,7 @@ foreach ($entries as $query) {
 }
 
 ?>
-@component('telescope-toolbar::item', ['name' => 'database', 'link' => true])
+@component('telescope-toolbar::item', ['name' => 'queries', 'link' => true])
 
     @slot('icon')
         @ttIcon('database')
