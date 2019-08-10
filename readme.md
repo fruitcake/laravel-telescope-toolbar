@@ -16,20 +16,21 @@ composer require fruitcake/laravel-telescope-toolbar:1.x@dev --dev
 
 The Toolbar will show by default when Telescope is enabled on APP_DEBUG is true.
 
-![image](https://user-images.githubusercontent.com/973269/62776864-0acf2680-baac-11e9-88ba-bac82ce9fa7e.png)
+![image](https://user-images.githubusercontent.com/973269/62824759-b35fb200-bba2-11e9-964b-cf40f3d6d79c.png)
 
 
 #### Current Features
 
  - Inject Toolbar for quick info
- - Register Ajax requests and update info
- - Show redirects
- - Link to related Telescope Entry
+ - Show redirects and Ajax Requests
+ - Link to related Telescope Entry page
  - Supported Collectors:
-    * Request
+    * Request info / timing
     * User auth
-    * Database
+    * Database queries
     * Laravel/php version
+    * Cache
+    * Logger
     
 #### Todo
 
