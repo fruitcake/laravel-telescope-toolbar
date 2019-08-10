@@ -24,6 +24,10 @@
         @include("telescope-toolbar::collectors.cache", ['entries' => $entries['cache']])
     @endif
 
+    @if(isset($entries['log']))
+        @include("telescope-toolbar::collectors.logs", ['entries' => $entries['log']])
+    @endif
+
 
     @include("telescope-toolbar::collectors.config")
 
