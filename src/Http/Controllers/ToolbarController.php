@@ -74,6 +74,6 @@ class ToolbarController extends Controller
     {
         $entry = $this->entriesRepository->find($token);
 
-        return (new EntryQueryOptions())->batchId($entry->batchId);
+        return EntryQueryOptions::forBatchId($entry->batchId)->limit(-1);
     }
 }
