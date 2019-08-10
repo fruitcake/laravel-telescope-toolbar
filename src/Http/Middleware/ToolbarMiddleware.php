@@ -3,6 +3,7 @@
 namespace Fruitcake\TelescopeToolbar\Http\Middleware;
 
 use Fruitcake\TelescopeToolbar\Toolbar;
+use Laravel\Telescope\Telescope;
 
 class ToolbarMiddleware
 {
@@ -26,7 +27,9 @@ class ToolbarMiddleware
         $response = $next($request);
 
         if (!$request->is('_tt/*')) {
-            $this->toolbar->modifyResponse($request, $response);
+            Telescope::withoutRecording(function() use($request, $response) {
+                $this->toolbar->modifyResponse($request, $response);
+            });
         }
 
         return $response;
