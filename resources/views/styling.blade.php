@@ -2,6 +2,10 @@
 
     @php($colors = ['success' => '#4F805D', 'warning' => '#A46A1F', 'error' => '#B0413E'])
 
+    .Whoops.container {
+        z-index: 99998;
+    }
+    
     .sf-minitoolbar {
         background-color: #222;
         border-top-left-radius: 4px;
