@@ -32,6 +32,7 @@ The Toolbar will show by default when Telescope is enabled on APP_DEBUG is true.
     * Cache
     * Logger
     * Exceptions
+    * Number of entries for: Dumps/Jobs/Commands/Models/Events etc
     
 #### Todo
 
@@ -39,7 +40,7 @@ Target is to support all tabs from Telescope that can be connected to the curren
 
 Missing features
  - Toggle ajax requests?
- - Missing collectors
+ - Show preview of entries?
 
 > Note: There is no stable release yet. Use with caution and only on Development environments.
 
