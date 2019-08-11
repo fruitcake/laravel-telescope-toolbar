@@ -3,14 +3,12 @@
 namespace Fruitcake\TelescopeToolbar;
 
 use Illuminate\Foundation\Http\Events\RequestHandled;
-use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\View;
 use Laravel\Telescope\IncomingEntry;
 use Laravel\Telescope\Telescope;
 
 class Toolbar
 {
-    private const KEY_REDIRECT_TOKEN = '_tt.redirect_token';
     private const KEY_REQUEST_STACK = '_tt.request_stack';
 
     protected $token = null;
@@ -36,7 +34,7 @@ class Toolbar
      *
      * @return string
      */
-    protected function findOrCreateEntryUuid()
+    private function findOrCreateEntryUuid()
     {
         // Use the first one if available
         if (isset(Telescope::$entriesQueue[0])) {
@@ -48,16 +46,6 @@ class Toolbar
         }
 
         return (string) $entry->uuid;
-    }
-
-    /**
-     * @param RequestHandled $event
-     */
-    public function requestHandled(RequestHandled $event)
-    {
-        Telescope::withoutRecording(function() use($event) {
-            $this->modifyResponse($event->request, $event->response);
-        });
     }
 
     /**
@@ -105,7 +93,7 @@ class Toolbar
      * @param \Illuminate\Http\Request $request A Request instance
      * @param \Illuminate\Http\Response $response A Response instance
      */
-    protected function storeRedirectRequest($request, $response)
+    private function storeRedirectRequest($request, $response)
     {
         if ($request->hasSession()) {
             $requestStack = $this->getRequestStack($request, $response);
@@ -120,7 +108,7 @@ class Toolbar
      * @param \Illuminate\Http\Request $request A Request instance
      * @param \Illuminate\Http\Response $response A Response instance
      */
-    public function injectToolbar($request, $response)
+    private function injectToolbar($request, $response)
     {
         $content = $response->getContent();
 
@@ -149,7 +137,7 @@ class Toolbar
      * @param \Illuminate\Http\Response $response A Response instance
      * @return array
      */
-    protected function getRequestStack($request, $response): array
+    private function getRequestStack($request, $response): array
     {
         if ($request->hasSession()) {
             $requestStack = $request->session()->pull(self::KEY_REQUEST_STACK, []);
@@ -172,7 +160,7 @@ class Toolbar
      * @param \Illuminate\Http\Response $response A Response instance
      * @return array
      */
-    protected function getRequestData($request, $response) : array
+    private function getRequestData($request, $response) : array
     {
         $token = $this->getDebugToken();
         $path = $request->path();

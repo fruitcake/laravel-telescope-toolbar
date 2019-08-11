@@ -5,8 +5,10 @@ namespace Fruitcake\TelescopeToolbar;
 use Fruitcake\TelescopeToolbar\Http\Middleware\ToolbarMiddleware;
 use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Foundation\Http\Events\RequestHandled;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
+use Laravel\Telescope\Telescope;
 
 class ToolbarServiceProvider extends ServiceProvider
 {
@@ -72,11 +74,17 @@ class ToolbarServiceProvider extends ServiceProvider
     /**
      * Listen to the RequestHandled event to prepare the Response.
      *
+     * @param \Fruitcake\TelescopeToolbar\Toolbar $toolbar
+     *
      * @return void
      */
     private function registerResponseHandler(Toolbar $toolbar)
     {
-        $this->app['events']->listen(RequestHandled::class, [$toolbar, 'requestHandled']);
+        Event::listen(RequestHandled::class, function(RequestHandled $event) use ($toolbar) {
+            Telescope::withoutRecording(function() use($event, $toolbar) {
+                $toolbar->modifyResponse($event->request, $event->response);
+            });
+        });
     }
 
     /**
