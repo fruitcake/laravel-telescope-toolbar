@@ -47,8 +47,8 @@ return [
     'collectors' => [
         EntryType::REQUEST => [
             'telescope-toolbar::collectors.request',
-            'telescope-toolbar::collectors.user',
             'telescope-toolbar::collectors.time',
+            'telescope-toolbar::collectors.user',
         ],
         EntryType::EXCEPTION => [
             'telescope-toolbar::collectors.exceptions',
