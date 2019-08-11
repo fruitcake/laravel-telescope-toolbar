@@ -95,7 +95,7 @@ class Toolbar
      */
     private function storeRedirectRequest($request, $response)
     {
-        if ($request->hasSession()) {
+        if (config('telescope-toolbar.store_redirects') && $request->hasSession()) {
             $requestStack = $this->getRequestStack($request, $response);
             $request->session()->put(self::KEY_REQUEST_STACK, $requestStack);
             $request->session()->save();
@@ -139,7 +139,7 @@ class Toolbar
      */
     private function getRequestStack($request, $response): array
     {
-        if ($request->hasSession()) {
+        if (config('telescope-toolbar.store_redirects') && $request->hasSession()) {
             $requestStack = $request->session()->pull(self::KEY_REQUEST_STACK, []);
             if ($requestStack) {
                 $request->session()->save();

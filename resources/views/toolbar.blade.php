@@ -1,3 +1,7 @@
+<?php
+/** @var array|\Illuminate\Support\Collection $entries */
+?>
+
 <!-- START of Laravel Telescope Toolbar -->
 <div id="sfMiniToolbar-{{ $token }}" class="sf-minitoolbar" data-no-turbolink>
     <a href="#" title="Show Telescope toolbar" tabindex="-1" id="sfToolbarMiniToggler-{{ $token }}" accesskey="D">
@@ -10,32 +14,13 @@
 
     @include("telescope-toolbar::collectors.ajax")
 
-    @if(isset($entries['request']))
-        @include("telescope-toolbar::collectors.request", ['entries' => $entries['request']])
-        @include("telescope-toolbar::collectors.user", ['entries' => $entries['request']])
-        @include("telescope-toolbar::collectors.time", ['entries' => $entries['request']])
-    @endif
-
-    @if(isset($entries['query']))
-        @include("telescope-toolbar::collectors.queries", ['entries' => $entries['query']])
-    @endif
-
-    @if(isset($entries['cache']))
-        @include("telescope-toolbar::collectors.cache", ['entries' => $entries['cache']])
-    @endif
-
-    @if(isset($entries['log']))
-        @include("telescope-toolbar::collectors.logs", ['entries' => $entries['log']])
-    @endif
-
-    @if(isset($entries['mail']))
-        @include("telescope-toolbar::collectors.mail", ['entries' => $entries['mail']])
-    @endif
-
-    @if(isset($entries['notification']))
-        @include("telescope-toolbar::collectors.notifications", ['entries' => $entries['notification']])
-    @endif
-
+    @foreach (config('telescope-toolbar.collectors') as $type => $templates)
+        @if(isset($entries[$type]))
+            @foreach($templates as $template)
+                @include($template, ['entries' => $entries[$type]])
+            @endforeach
+        @endif
+    @endforeach
 
     @include("telescope-toolbar::collectors.config")
 
