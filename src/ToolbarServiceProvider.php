@@ -4,6 +4,7 @@ namespace Fruitcake\TelescopeToolbar;
 
 use Fruitcake\TelescopeToolbar\Http\Middleware\ToolbarMiddleware;
 use Illuminate\Contracts\Http\Kernel;
+use Illuminate\Foundation\Http\Events\RequestHandled;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 
@@ -14,7 +15,7 @@ class ToolbarServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(Toolbar $toolbar)
     {
         if (! config('telescope.enabled') || ! config('telescope-toolbar.enabled') || ! config('app.debug')) {
             return;
@@ -22,8 +23,7 @@ class ToolbarServiceProvider extends ServiceProvider
 
         $this->registerRoutes();
         $this->registerPublishing();
-        $this->registerMiddleware();
-
+        $this->registerResponseHandler($toolbar);
         $this->loadViewsFrom(
             __DIR__.'/../resources/views', 'telescope-toolbar'
         );
@@ -42,7 +42,7 @@ class ToolbarServiceProvider extends ServiceProvider
     }
 
     /**
-     * Get the Telescope route group configuration array.
+     * Get the Telescope Toolbar route group configuration array.
      *
      * @return array
      */
@@ -70,16 +70,13 @@ class ToolbarServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register the package routes.
+     * Listen to the RequestHandled event to prepare the Response.
      *
      * @return void
      */
-    private function registerMiddleware()
+    private function registerResponseHandler(Toolbar $toolbar)
     {
-        /** @var \Illuminate\Foundation\Http\Kernel $kernel */
-        $kernel = $this->app[Kernel::class];
-
-        $kernel->pushMiddleware(ToolbarMiddleware::class);
+        $this->app['events']->listen(RequestHandled::class, [$toolbar, 'requestHandled']);
     }
 
     /**
@@ -92,5 +89,7 @@ class ToolbarServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(
             __DIR__.'/../config/telescope-toolbar.php', 'telescope-toolbar'
         );
+
+        $this->app->singleton(Toolbar::class);
     }
 }

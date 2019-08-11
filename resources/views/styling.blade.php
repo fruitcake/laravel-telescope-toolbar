@@ -5,7 +5,7 @@
     .Whoops.container {
         z-index: 99998;
     }
-    
+
     .sf-minitoolbar {
         background-color: #222;
         border-top-left-radius: 4px;

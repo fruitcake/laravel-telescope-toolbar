@@ -2,6 +2,7 @@
 
 namespace Fruitcake\TelescopeToolbar;
 
+use Illuminate\Foundation\Http\Events\RequestHandled;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\View;
 use Laravel\Telescope\IncomingEntry;
@@ -47,6 +48,16 @@ class Toolbar
         }
 
         return (string) $entry->uuid;
+    }
+
+    /**
+     * @param RequestHandled $event
+     */
+    public function requestHandled(RequestHandled $event)
+    {
+        Telescope::withoutRecording(function() use($event) {
+            $this->modifyResponse($event->request, $event->response);
+        });
     }
 
     /**
