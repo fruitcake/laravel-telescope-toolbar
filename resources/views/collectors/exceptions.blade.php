@@ -14,5 +14,37 @@
 
     @endslot
 
+    @slot('text')
+
+        <div class="sf-toolbar-info-piece">
+            <table>
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Message</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach ($entries as $entry)
+                        <tr >
+                            <td>
+                                <a href="{{ route('telescope') }}/exceptions/{{ $entry->id }}" target="_telescope">
+                                    view
+                                </a>
+                            </td>
+
+                            <td title="{{ $entry->content['class'] }}">
+                                {{ \Illuminate\Support\Str::limit($entry->content['class'], 70) }}<br>
+                                <small class="text-muted">{{ \Illuminate\Support\Str::limit($entry->content['message'], 100) }}</small>
+                            </td>
+
+                        </tr>
+                    @endforeach
+                </tbody>
+
+            </table>
+        </div>
+    @endslot
 
 @endcomponent

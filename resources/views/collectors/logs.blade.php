@@ -48,13 +48,40 @@ if ($errors) {
 
     @slot('text')
 
-        @foreach ($levels as $level => $count)
-            <div class="sf-toolbar-info-piece">
-                <b>{{ $level }}</b>
-                <span class="sf-toolbar-status ">{{ $count }}</span>
-            </div>
-        @endforeach
+        <div class="sf-toolbar-info-piece">
+            <table>
+                <thead>
+                <tr>
+                    <th></th>
+                    <th>Level</th>
+                    <th>Message</th>
+                </tr>
+                </thead>
 
+                <tbody>
+                @foreach ($entries as $entry)
+                    <tr >
+                        <td>
+                            <a href="{{ route('telescope') }}/logs/{{ $entry->id }}" target="_telescope">
+                                view
+                            </a>
+                        </td>
+
+                        <td>
+                            {{ $entry->content['level'] }}
+                        </td>
+
+                        <td title="{{ $entry->content['message'] }}">
+                            {{ \Illuminate\Support\Str::limit($entry->content['message'], 90) }}
+                        </td>
+
+                    </tr>
+                @endforeach
+                </tbody>
+
+            </table>
+        </div>
     @endslot
+
 
 @endcomponent
