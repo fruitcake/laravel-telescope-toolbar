@@ -6,17 +6,24 @@
 $num_queries = 0;
 $num_slow = 0;
 $query_time = 0;
-
+$queries = [];
 foreach ($entries as $query) {
     $num_queries++;
     if ($query->content['slow'] ?? false) {
         $num_slow++;
     }
     $query_time += $query->content['time'] ?? 0;
+    $queries[$query->content['sql']] = $query->content['sql'];
 }
 
+$num_duplicated = $num_queries - count($queries);
+if ($num_queries > 0 && $num_duplicated > $num_queries / 2) {
+    $statusColor = 'yellow';
+} else {
+    $statusColor = null;
+}
 ?>
-@component('telescope-toolbar::item', ['name' => 'queries', 'link' => true])
+@component('telescope-toolbar::item', ['name' => 'queries', 'link' => true, 'status' => $statusColor])
 
     @slot('icon')
         @ttIcon('queries')
@@ -41,6 +48,11 @@ foreach ($entries as $query) {
         <div class="sf-toolbar-info-piece">
             <b>Slow Queries</b>
             <span class="sf-toolbar-status ">{{ $num_slow }}</span>
+        </div>
+
+        <div class="sf-toolbar-info-piece">
+            <b>Duplicate Queries</b>
+            <span class="sf-toolbar-status ">{{ $num_duplicated }}</span>
         </div>
 
         <div class="sf-toolbar-info-piece">
