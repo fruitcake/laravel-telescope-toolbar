@@ -40,7 +40,7 @@ if ($errors) {
 @component('telescope-toolbar::item', ['name' => 'logs ', 'link' => true, 'status' => $statusColor])
 
     @slot('icon')
-        @ttIcon('logger')
+        @ttIcon('logs')
 
         <span class="sf-toolbar-value">{{ $total }}</span>
 

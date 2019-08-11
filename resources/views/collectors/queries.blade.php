@@ -19,7 +19,7 @@ foreach ($entries as $query) {
 @component('telescope-toolbar::item', ['name' => 'queries', 'link' => true])
 
     @slot('icon')
-        @ttIcon('database')
+        @ttIcon('queries')
 
         <span class="sf-toolbar-value">{{ $num_queries }}</span>
 

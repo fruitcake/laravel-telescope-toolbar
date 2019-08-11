@@ -16,7 +16,7 @@ if ($statusCode > 400) {
 
     @slot('icon')
         <span class="sf-toolbar-status sf-toolbar-status-{{ $statusColor }}">{{ $statusCode }}</span>
-        <span class="sf-toolbar-label"> @</span>
+        @ttIcon('requests')
         <span class="sf-toolbar-value sf-toolbar-info-piece-additional">{{ $data['method'] }} {{ $data['uri'] }}</span>
     @endslot
 
