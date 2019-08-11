@@ -28,6 +28,14 @@
         @include("telescope-toolbar::collectors.logs", ['entries' => $entries['log']])
     @endif
 
+    @if(isset($entries['mail']))
+        @include("telescope-toolbar::collectors.mail", ['entries' => $entries['mail']])
+    @endif
+
+    @if(isset($entries['notification']))
+        @include("telescope-toolbar::collectors.notifications", ['entries' => $entries['notification']])
+    @endif
+
 
     @include("telescope-toolbar::collectors.config")
 
