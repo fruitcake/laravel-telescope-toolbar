@@ -17,10 +17,10 @@
     @slot('text')
 
         <div class="sf-toolbar-info-piece">
-            <table>
+            <table class="sf-toolbar-previews">
                 <thead>
                     <tr>
-                        <th></th>
+                        <th>Details</th>
                         <th>Message</th>
                     </tr>
                 </thead>

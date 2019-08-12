@@ -1,7 +1,5 @@
 <style @if(isset($csp_style_nonce) && $csp_style_nonce) nonce="{{ $csp_style_nonce }}" @endif>
 
-    @php($colors = ['success' => '#4F805D', 'warning' => '#A46A1F', 'error' => '#B0413E'])
-
     .Whoops.container {
         z-index: 99998;
     }
@@ -212,25 +210,25 @@
     }
 
     .sf-toolbar-block .sf-toolbar-status-green {
-        background-color: {!! $colors['success'] !!};
+        background-color: #4F805D;
     }
     .sf-toolbar-block .sf-toolbar-status-red {
-        background-color: {!! $colors['error'] !!};
+        background-color: #B0413E;
     }
     .sf-toolbar-block .sf-toolbar-status-yellow {
-        background-color: {!! $colors['warning'] !!};
+        background-color: #A46A1F;
     }
 
     .sf-toolbar-block.sf-toolbar-status-green {
-        background-color: {!! $colors['success'] !!};
+        background-color: #4F805D;
         color: #FFF;
     }
     .sf-toolbar-block.sf-toolbar-status-red {
-        background-color:{!! $colors['error'] !!};
+        background-color: #B0413E;
         color: #FFF;
     }
     .sf-toolbar-block.sf-toolbar-status-yellow {
-        background-color: {!! $colors['warning'] !!};
+        background-color: #A46A1F;
         color: #FFF;
     }
 
@@ -336,21 +334,21 @@
     .sf-toolbar-info-piece b.sf-toolbar-ajax-info {
         color: #F5F5F5;
     }
-    .sf-toolbar-ajax-requests {
+    .sf-toolbar-ajax-requests, .sf-toolbar-previews {
         table-layout: auto;
         width: 100%;
     }
-    .sf-toolbar-ajax-requests td {
+    .sf-toolbar-ajax-requests td, .sf-toolbar-previews td {
         background-color: #444;
         border-bottom: 1px solid #777;
         color: #F5F5F5;
         font-size: 12px;
         padding: 4px;
     }
-    .sf-toolbar-ajax-requests tr:last-child td {
+    .sf-toolbar-ajax-requests tr:last-child td, .sf-toolbar-previews tr:last-child td {
         border-bottom: 0;
     }
-    .sf-toolbar-ajax-requests th {
+    .sf-toolbar-ajax-requests th, .sf-toolbar-previews th {
         background-color: #222;
         border-bottom: 0;
         color: #AAA;
