@@ -39,7 +39,8 @@ The Toolbar will show by default when Telescope is enabled on APP_DEBUG is true.
     * Mails
     * Notifications
     * Jobs
-    * Number of entries for: Dumps/Commands/Models/Events
+    * Dumps (Only works when the Dump tab is opened in Telescope)
+    * Number of entries for: Commands/Models/Events
     
 #### Screenshots
 
