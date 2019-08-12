@@ -5,7 +5,7 @@
 
 
 ?>
-@component('telescope-toolbar::item', ['name' => 'dumps', 'link' => true])
+@component('telescope-toolbar::item', ['name' => 'dumps', 'link' => route('telescope') . '/dumps', 'status' => 'yellow'])
 
     @slot('icon')
         @ttIcon('dumps')

@@ -2,8 +2,6 @@
 
 namespace Fruitcake\TelescopeToolbar;
 
-use Fruitcake\TelescopeToolbar\Http\Middleware\ToolbarMiddleware;
-use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Foundation\Http\Events\RequestHandled;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Route;
