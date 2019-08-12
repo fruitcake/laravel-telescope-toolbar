@@ -34,7 +34,7 @@ foreach ($entries as $entry) {
 
         @foreach ($types as $type => $count)
             <div class="sf-toolbar-info-piece">
-                <b>{{ $type }}</b>
+                <b>Cache {{ $type }}</b>
                 <span class="sf-toolbar-status ">{{ $count }}</span>
             </div>
         @endforeach
