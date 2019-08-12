@@ -97,7 +97,7 @@ class Toolbar
     {
         if (config('telescope-toolbar.store_redirects') && $request->hasSession()) {
             $requestStack = $this->getRequestStack($request, $response);
-            $request->session()->flash(self::KEY_REQUEST_STACK, $requestStack);
+            $request->session()->put(self::KEY_REQUEST_STACK, $requestStack);
             $request->session()->reflash();
             $request->session()->save();
         }
@@ -142,6 +142,8 @@ class Toolbar
     {
         if (config('telescope-toolbar.store_redirects') && $request->hasSession()) {
             $requestStack = $request->session()->pull(self::KEY_REQUEST_STACK, []);
+            $request->session()->reflash();
+            $request->session()->save();
         } else {
             $requestStack = [];
         }
