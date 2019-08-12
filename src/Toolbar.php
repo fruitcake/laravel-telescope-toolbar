@@ -54,7 +54,7 @@ class Toolbar
      */
     public function modifyResponse($request, $response)
     {
-        if ($request->is('_tt/*', config('telescope.path') . '*') ) {
+        if ($request->is('_tt/*', config('telescope.path') . '*', '_debugbar/*') ) {
             return;
         }
 
