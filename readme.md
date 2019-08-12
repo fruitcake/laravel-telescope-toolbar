@@ -14,6 +14,8 @@ Just install the package with Composer and it will register automatically:
 composer require fruitcake/laravel-telescope-toolbar:1.x@dev --dev
 ```
 
+Make sure you followed the Telescope Install instructions on https://laravel.com/docs/5.8/telescope#installation
+
 The Toolbar will show by default when Telescope is enabled on APP_DEBUG is true.
 
 ![image](https://user-images.githubusercontent.com/973269/62854273-24ac7b80-bcef-11e9-9b31-5525a845d4d3.png)
