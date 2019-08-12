@@ -18,32 +18,27 @@ The Toolbar will show by default when Telescope is enabled on APP_DEBUG is true.
 
 ![image](https://user-images.githubusercontent.com/973269/62824759-b35fb200-bba2-11e9-964b-cf40f3d6d79c.png)
 
+> Note: The Toolbar is intended for Development environments, not for production.
 
 #### Current Features
 
  - Inject Toolbar for quick info
  - Show redirects and Ajax Requests
  - Link to related Telescope Entry page
+ - Show up to 5 entries for collectors, link to details
  - Supported Collectors:
     * Request info / timing
     * User auth
     * Database queries
     * Laravel/php version
-    * Cache
-    * Logger
+    * Cache hit/miss/set
+    * Logger entries
     * Exceptions
-    * Number of entries for: Dumps/Jobs/Commands/Models/Events etc
+    * Mails
+    * Notifications
+    * Jobs
+    * Number of entries for: Dumps/Commands/Models/Events
     
-#### Todo
-
-Target is to support all tabs from Telescope that can be connected to the current 'batch'. So Cache, Mails, Exceptions etc.
-
-Missing features
- - Toggle ajax requests?
- - Show preview of entries?
-
-> Note: There is no stable release yet. Use with caution and only on Development environments.
-
 ## License and attribution
 
 Laravel Telescope Toolbar is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).

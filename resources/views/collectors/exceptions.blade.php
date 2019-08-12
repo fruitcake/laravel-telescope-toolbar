@@ -26,8 +26,8 @@
                 </thead>
 
                 <tbody>
-                    @foreach ($entries as $entry)
-                        <tr >
+                    @foreach ($entries->take(5) as $entry)
+                        <tr>
                             <td>
                                 <a href="{{ route('telescope') }}/exceptions/{{ $entry->id }}" target="_telescope">
                                     view
@@ -36,11 +36,19 @@
 
                             <td title="{{ $entry->content['class'] }}">
                                 {{ \Illuminate\Support\Str::limit($entry->content['class'], 70) }}<br>
-                                <small class="text-muted">{{ \Illuminate\Support\Str::limit($entry->content['message'], 100) }}</small>
+                                <small>{{ \Illuminate\Support\Str::limit($entry->content['message'], 100) }}</small>
                             </td>
 
                         </tr>
                     @endforeach
+                    @if ($entries->count() > 5)
+                        <tfoot>
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td><small>Showing 5 of {{ $entries->count() }} entries..</small></td>
+                        </tr>
+                        </tfoot>
+                    @endif
                 </tbody>
 
             </table>

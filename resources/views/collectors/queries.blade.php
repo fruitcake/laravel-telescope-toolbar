@@ -17,7 +17,7 @@ foreach ($entries as $query) {
 }
 
 $num_duplicated = $num_queries - count($queries);
-if ($num_queries > 0 && $num_duplicated > $num_queries / 2) {
+if ($num_queries > 0 && $num_duplicated > $num_queries *.75) {
     $statusColor = 'yellow';
 } else {
     $statusColor = null;
