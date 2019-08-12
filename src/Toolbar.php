@@ -3,6 +3,7 @@
 namespace Fruitcake\TelescopeToolbar;
 
 use Illuminate\Foundation\Http\Events\RequestHandled;
+use Illuminate\Http\Response as IlluminateResponse;
 use Illuminate\Support\Facades\View;
 use Laravel\Telescope\IncomingEntry;
 use Laravel\Telescope\Telescope;
@@ -128,7 +129,17 @@ class Toolbar
             $content = $content . $renderedContent;
         }
 
+        $original = null;
+        if ($response instanceof IlluminateResponse && $response->getOriginalContent()) {
+            $original = $response->getOriginalContent();
+        }
+
         $response->setContent($content);
+
+        // Restore original response (eg. the View or Ajax data)
+        if ($original) {
+            $response->original = $original;
+        }
     }
 
     /**
