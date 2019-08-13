@@ -60,6 +60,10 @@ Preview for Mail/Notifications/Log entries with link to details:
 
 ![image](https://user-images.githubusercontent.com/973269/62854027-6d176980-bcee-11e9-9020-c80705160a25.png)
 
+Catch `dump()` calls and show them directly in the Toolbar instead of the page:
+
+![image](https://user-images.githubusercontent.com/973269/62945077-4f293200-bdde-11e9-951d-4f19196395e5.png)
+
     
 ## License and attribution
 
