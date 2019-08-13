@@ -93,7 +93,6 @@ class ToolbarServiceProvider extends ServiceProvider
             $seconds = is_int($seconds) ? $seconds : 60;
             Cache::put('telescope:dump-watcher', true, now()->addSeconds($seconds));
         }
-
     }
     /**
      * Register any package services.
