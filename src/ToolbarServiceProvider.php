@@ -3,6 +3,7 @@
 namespace Fruitcake\TelescopeToolbar;
 
 use Illuminate\Foundation\Http\Events\RequestHandled;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
@@ -24,6 +25,7 @@ class ToolbarServiceProvider extends ServiceProvider
         $this->registerRoutes();
         $this->registerPublishing();
         $this->registerResponseHandler($toolbar);
+        $this->registerDumpWatcher();
         $this->loadViewsFrom(
             __DIR__.'/../resources/views', 'telescope-toolbar'
         );
@@ -85,6 +87,14 @@ class ToolbarServiceProvider extends ServiceProvider
         });
     }
 
+    private function registerDumpWatcher()
+    {
+        if ($seconds = config('telescope-toolbar.dump_watcher')) {
+            $seconds = is_int($seconds) ? $seconds : 60;
+            Cache::put('telescope:dump-watcher', true, now()->addSeconds($seconds));
+        }
+
+    }
     /**
      * Register any package services.
      *
