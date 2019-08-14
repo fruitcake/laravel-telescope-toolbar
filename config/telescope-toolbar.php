@@ -70,6 +70,7 @@ return [
         EntryType::REQUEST => [
             'telescope-toolbar::collectors.request',
             'telescope-toolbar::collectors.time',
+            'telescope-toolbar::collectors.memory',
             'telescope-toolbar::collectors.user',
         ],
         EntryType::EXCEPTION => [
