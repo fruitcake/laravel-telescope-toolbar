@@ -119,7 +119,7 @@ class Toolbar
         $renderedContent = View::make('telescope-toolbar::widget', [
             'token' => $token,
             'requestStack' => $this->getRequestStack($request, $response),
-            'excluded_ajax_paths' => config('laravel-telescope', '^/_tt|^/_debugbar'),
+            'excluded_ajax_paths' => config('telescope-toolbar.excluded_ajax_paths'),
         ])->render();
 
         $pos = strripos($content, '</body>');
