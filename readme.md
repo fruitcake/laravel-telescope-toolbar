@@ -13,7 +13,7 @@ First install Telescope and check it works.
 Then just install the package with Composer and it will register automatically:
 
 ```bash
-composer require fruitcake/laravel-telescope-toolbar:1.x@dev --dev
+composer require fruitcake/laravel-telescope-toolbar --dev
 ```
 
 The Toolbar will show by default when Telescope is enabled on APP_DEBUG is true.
