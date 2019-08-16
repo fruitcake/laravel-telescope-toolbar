@@ -53,6 +53,22 @@ if ($statusCode > 400) {
                 </span>
             </div>
 
+            @if(isset($data['response']['view']))
+                <div class="sf-toolbar-info-piece">
+                    <b>View</b>
+                    <span>
+                       {{ str_replace(base_path(), '', $data['response']['view']) }}
+                    </span>
+                </div>
+            @elseif(isset($data['response']) && is_string($data['response']))
+                <div class="sf-toolbar-info-piece">
+                    <b>Response</b>
+                    <span>
+                       {{ \Illuminate\Support\Str::limit($data['response'], 60) }}
+                    </span>
+                </div>
+            @endif
+
         </div>
     @endslot
 
