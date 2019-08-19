@@ -22,7 +22,10 @@
   "autoload": {
     "psr-4": {
       "Fruitcake\\TelescopeToolbar\\": "src/"
-    }
+    },
+    "files": [
+      "src/helpers.php"
+    ],
   },
   "minimum-stability": "dev",
   "prefer-stable": true,
@@ -33,7 +36,10 @@
     "laravel": {
       "providers": [
         "Fruitcake\\TelescopeToolbar\\ToolbarServiceProvider"
-      ]
+      ],
+      "aliases": {
+        "Toolbar": "Fruitcake\\TelescopeToolbar\\Toolbar"
+      }
     }
   }
 }

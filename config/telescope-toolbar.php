@@ -63,10 +63,10 @@ return [
     |--------------------------------------------------------------------------
     |
     | This options listens for dumps always, without having the tab open.
-    | You can specify the number of seconds it listens.
+    | You can specify the number of seconds it listens or disable with `false`
     |
     */
-    'dump_watcher' => 60,
+    'dump_watcher' => false,
 
     /*
     |--------------------------------------------------------------------------

@@ -5,8 +5,11 @@ namespace Fruitcake\TelescopeToolbar;
 use Illuminate\Foundation\Http\Events\RequestHandled;
 use Illuminate\Http\Response as IlluminateResponse;
 use Illuminate\Support\Facades\View;
+use Laravel\Telescope\IncomingDumpEntry;
 use Laravel\Telescope\IncomingEntry;
 use Laravel\Telescope\Telescope;
+use Symfony\Component\VarDumper\Cloner\VarCloner;
+use Symfony\Component\VarDumper\Dumper\HtmlDumper;
 
 class Toolbar
 {
@@ -16,6 +19,16 @@ class Toolbar
 
     protected $redirectToken = null;
 
+    public static function dump(...$args)
+    {
+        foreach ($args as $var) {
+            Telescope::recordDump(
+                IncomingDumpEntry::make(['dump' =>  (new HtmlDumper)->dump(
+                    (new VarCloner)->cloneVar($var), true
+                )])
+            );
+        }
+    }
     /**
      * Get an unique token for this request to tie the Ajax request to.
      *
