@@ -49,7 +49,7 @@ if ($statusCode > 400) {
             <div class="sf-toolbar-info-piece">
                 <b>Middleware</b>
                 <span>
-                    {{ implode(', ', $data['middleware']) }}
+                    {{ implode(', ', array_filter($data['middleware'])) }}
                 </span>
             </div>
 
