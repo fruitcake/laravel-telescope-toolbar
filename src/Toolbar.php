@@ -132,11 +132,11 @@ class Toolbar
 
         $head = View::make('telescope-toolbar::head', [
             'assetVersion' => static::ASSET_VERSION,
+            'requestStack' => $this->getRequestStack($request, $response),
         ])->render();
 
         $widget = View::make('telescope-toolbar::widget', [
             'token' => $token,
-            'requestStack' => $this->getRequestStack($request, $response),
         ])->render();
 
         // Try to put the js/css directly before the </head>
