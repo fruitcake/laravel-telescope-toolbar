@@ -130,19 +130,30 @@ class Toolbar
 
         $token = $this->getDebugToken();
 
-        $renderedContent = View::make('telescope-toolbar::widget', [
-            'token' => $token,
+        $head = View::make('telescope-toolbar::head', [
             'assetVersion' => static::ASSET_VERSION,
-            'requestStack' => $this->getRequestStack($request, $response),
-            'excluded_ajax_paths' => config('telescope-toolbar.excluded_ajax_paths', '^/_tt'),
         ])->render();
 
-        // Try to put it directly after the start of <body>
-        $pos = strripos($content, '<body>');
+        $widget = View::make('telescope-toolbar::widget', [
+            'token' => $token,
+            'requestStack' => $this->getRequestStack($request, $response),
+        ])->render();
+
+        // Try to put the js/css directly before the </head>
+        $pos = strripos($content, '</head>');
         if (false !== $pos) {
-            $content = substr($content, 0, $pos + 6) . $renderedContent . substr($content, $pos + 6);
+            $content = substr($content, 0, $pos) . $head . substr($content, $pos);
         } else {
-            $content = $content . $renderedContent;
+            // Append the head before the widget
+            $widget = $head . $widget;
+        }
+
+        // Try to put the widget at the end, directly before the </body>
+        $pos = strripos($content, '</body>');
+        if (false !== $pos) {
+            $content = substr($content, 0, $pos) . $widget . substr($content, $pos);
+        } else {
+            $content = $content . $widget;
         }
 
         $original = null;

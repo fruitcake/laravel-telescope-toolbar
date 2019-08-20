@@ -49,7 +49,9 @@ class ToolbarController extends Controller
 
     public function baseJs()
     {
-        $content = view('telescope-toolbar::base_js')->render();
+        $content = View::make('telescope-toolbar::base_js', [
+            'excluded_ajax_paths' => config('telescope-toolbar.excluded_ajax_paths', '^/_tt'),
+        ])->render();
 
         $content = $this->stripSurroundingTags($content);
 
@@ -60,7 +62,7 @@ class ToolbarController extends Controller
 
     public function styling()
     {
-        $content = view('telescope-toolbar::styling')->render();
+        $content = View::make('telescope-toolbar::styling')->render();
 
         $content = $this->stripSurroundingTags($content);
 
