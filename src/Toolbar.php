@@ -13,6 +13,7 @@ use Symfony\Component\VarDumper\Dumper\HtmlDumper;
 
 class Toolbar
 {
+    public const ASSET_VERSION = '20190820';
     private const KEY_REQUEST_STACK = '_tt.request_stack';
 
     protected $token = null;
@@ -129,17 +130,30 @@ class Toolbar
 
         $token = $this->getDebugToken();
 
-        $renderedContent = View::make('telescope-toolbar::widget', [
-            'token' => $token,
+        $head = View::make('telescope-toolbar::head', [
+            'assetVersion' => static::ASSET_VERSION,
             'requestStack' => $this->getRequestStack($request, $response),
-            'excluded_ajax_paths' => config('telescope-toolbar.excluded_ajax_paths', '^/_tt'),
         ])->render();
 
+        $widget = View::make('telescope-toolbar::widget', [
+            'token' => $token,
+        ])->render();
+
+        // Try to put the js/css directly before the </head>
+        $pos = strripos($content, '</head>');
+        if (false !== $pos) {
+            $content = substr($content, 0, $pos) . $head . substr($content, $pos);
+        } else {
+            // Append the head before the widget
+            $widget = $head . $widget;
+        }
+
+        // Try to put the widget at the end, directly before the </body>
         $pos = strripos($content, '</body>');
         if (false !== $pos) {
-            $content = substr($content, 0, $pos) . $renderedContent . substr($content, $pos);
+            $content = substr($content, 0, $pos) . $widget . substr($content, $pos);
         } else {
-            $content = $content . $renderedContent;
+            $content = $content . $widget;
         }
 
         $original = null;
