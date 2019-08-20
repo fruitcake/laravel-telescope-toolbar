@@ -47,6 +47,44 @@ class ToolbarController extends Controller
         return redirect(route('telescope') . '/requests/' . $request->id);
     }
 
+    public function baseJs()
+    {
+        $content = view('telescope-toolbar::base_js')->render();
+
+        $content = $this->stripSurroundingTags($content);
+
+        return response($content, 200, [
+            'Content-Type' => 'text/javascript',
+        ])->setClientTtl(31536000);
+    }
+
+    public function styling()
+    {
+        $content = view('telescope-toolbar::styling')->render();
+
+        $content = $this->stripSurroundingTags($content);
+
+        return response($content, 200, [
+            'Content-Type' => 'text/css',
+        ])->setClientTtl(31536000);
+    }
+
+    /**
+     * Strip <script>/<style> tags from the content
+     *
+     * @param $content
+     * @return string
+     */
+    private function stripSurroundingTags($content)
+    {
+        $lines = explode("\n", trim($content));
+
+        array_shift($lines);
+        array_pop($lines);
+
+        return implode("\n", $lines);
+    }
+
     /**
      * Make sure Blade has the correct Directives and shares the Token
      *

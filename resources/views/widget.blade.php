@@ -1,8 +1,9 @@
+
+<!-- Start of Telescope Toolbar widget !-->
 <div id="sfwdt{{ $token }}" class="sf-toolbar sf-display-none"></div>
 
-@include("telescope-toolbar::base_js")
-
-@include("telescope-toolbar::styling")
+<script src="{{ route('telescope-toolbar.baseJs') }}?{{ $assetVersion }}"></script>
+<link href="{{ route('telescope-toolbar.styling') }}?{{ $assetVersion }}" rel="stylesheet">
 
 <script @if(isset($csp_script_nonce) && $csp_script_nonce) nonce="{{ $csp_script_nonce }}" @endif>/*<![CDATA[*/
   (function () {
@@ -12,3 +13,4 @@
     @endforeach
   })();
 /*]]>*/</script>
+<!-- End of Telescope Toolbar widget !-->

@@ -13,6 +13,7 @@ use Symfony\Component\VarDumper\Dumper\HtmlDumper;
 
 class Toolbar
 {
+    public const ASSET_VERSION = '20190820';
     private const KEY_REQUEST_STACK = '_tt.request_stack';
 
     protected $token = null;
@@ -131,13 +132,15 @@ class Toolbar
 
         $renderedContent = View::make('telescope-toolbar::widget', [
             'token' => $token,
+            'assetVersion' => static::ASSET_VERSION,
             'requestStack' => $this->getRequestStack($request, $response),
             'excluded_ajax_paths' => config('telescope-toolbar.excluded_ajax_paths', '^/_tt'),
         ])->render();
 
-        $pos = strripos($content, '</body>');
+        // Try to put it directly after the start of <body>
+        $pos = strripos($content, '<body>');
         if (false !== $pos) {
-            $content = substr($content, 0, $pos) . $renderedContent . substr($content, $pos);
+            $content = substr($content, 0, $pos + 6) . $renderedContent . substr($content, $pos + 6);
         } else {
             $content = $content . $renderedContent;
         }
