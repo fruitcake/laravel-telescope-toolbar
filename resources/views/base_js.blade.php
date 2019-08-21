@@ -90,11 +90,13 @@
             if (ret = allHeaders.match(/^x-debug-token-link:\s+(.*)$/im)) {
                 stackElement.profilerUrl = ret[1];
             }
-            if (ret = allHeaders.match(/^Symfony-Debug-Toolbar-Replace:\s+(.*)$/im)) {
-                stackElement.toolbarReplaceFinished = false;
-                stackElement.toolbarReplace = '1' === ret[1];
-            }
         };
+
+        var togglePreference = function() {
+            var newState = Sfjs.getPreference('toolbar/ajax/replace') !== 'manual' ?  'manual' : 'auto' ;
+            Sfjs.setPreference('toolbar/ajax/replace', newState);
+            document.querySelector('.sf-toolbar-ajax-replace-state').innerHTML =  newState === 'manual' ? 'Manual' : 'Auto';
+        }
 
         var successStreak = 4;
         var pendingRequests = 0;
@@ -132,6 +134,9 @@
                 successStreak = 4;
                 document.querySelector('.sf-toolbar-ajax-request-list').innerHTML = '';
             });
+
+            document.querySelector('.sf-toolbar-ajax-replace-state').innerHTML = Sfjs.getPreference('toolbar/ajax/replace') === 'manual' ? 'Manual' : 'Auto';
+            addEventListener(document.querySelector('.sf-toolbar-ajax-replace-toggle'), 'click', togglePreference);
         };
 
         var startAjaxRequest = function(index) {
@@ -213,7 +218,7 @@
                 return;
             }
 
-            if (request.toolbarReplace && !request.toolbarReplaceFinished && request.profile) {
+            if (Sfjs.getPreference('toolbar/ajax/replace') !== 'manual' && !request.toolbarReplaceFinished && request.profile) {
                 /* Flag as complete because finishAjaxRequest can be called multiple times. */
                 request.toolbarReplaceFinished = true;
                 /* Search up through the DOM to find the toolbar's container ID. */
@@ -325,7 +330,6 @@
                         stackElement.profile = r.headers.get('x-debug-token');
                         stackElement.profilerUrl = r.headers.get('x-debug-token-link');
                         stackElement.toolbarReplaceFinished = false;
-                        stackElement.toolbarReplace = '1' === r.headers.get('Symfony-Debug-Toolbar-Replace');
                         finishAjaxRequest(idx);
                     }, function (e){
                         stackElement.error = true;

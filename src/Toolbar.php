@@ -84,10 +84,6 @@ class Toolbar
             $response->header('x-debug-token', $this->getDebugToken($request));
             $response->header('x-debug-token-link', route('telescope-toolbar.show', [$this->getDebugToken($request)]));
 
-            if (config('telescope-toolbar.replace')) {
-                $response->header('Symfony-Debug-Toolbar-Replace', 1);
-            }
-
             return;
         }
 
