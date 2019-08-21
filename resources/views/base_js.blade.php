@@ -260,12 +260,23 @@
                 durationCell.textContent = request.duration + 'ms';
             }
 
-            if (request.profilerUrl) {
+            if (request.profile) {
                 profilerCell.textContent = '';
                 var profilerLink = document.createElement('a');
-                profilerLink.setAttribute('href', request.statusCode < 400 ? request.profilerUrl : request.profilerUrl + '?panel=exception');
+                profilerLink.setAttribute('href', request.profilerUrl || '#');
                 profilerLink.setAttribute('target', '_profiler');
-                profilerLink.textContent = 'View';
+                profilerLink.textContent = 'Load';
+
+                profilerLink.addEventListener("click", function(e){
+                    e.preventDefault();
+                    for (var elem = request.DOMNode; elem && elem !== document; elem = elem.parentNode) {
+                        if (elem.id.match(/^sfwdt/)) {
+                            Sfjs.loadToolbar(elem.id.replace(/^sfwdt/, ''), request.profile);
+                            return false;
+                        }
+                    }
+                });
+
                 profilerCell.appendChild(profilerLink);
             }
 
