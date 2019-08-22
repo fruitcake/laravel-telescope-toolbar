@@ -36,7 +36,7 @@ class ToolbarController extends Controller
         ]);
     }
 
-    public function show($token)
+    public function show($token, $tab = null)
     {
         Telescope::stopRecording();
 
@@ -44,7 +44,13 @@ class ToolbarController extends Controller
 
         $request = $this->entriesRepository->get('request', $options)->first();
 
-        return redirect(route('telescope') . '/requests/' . $request->id);
+        $url = route('telescope') . '/requests/' . $request->id;
+
+        if ($tab) {
+            $url .= "#" . $tab;
+        }
+
+        return redirect($url);
     }
 
     public function baseJs()
