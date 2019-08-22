@@ -46,7 +46,22 @@ class ToolbarController extends Controller
 
         $url = route('telescope') . '/requests/' . $request->id;
 
-        if ($tab) {
+        if ($tab && in_array($tab,
+                [
+                    'exceptions',
+                    'logs',
+                    'views',
+                    'queries',
+                    'models',
+                    'jobs',
+                    'mails',
+                    'notifications',
+                    'events',
+                    'cache',
+                    'gates',
+                    'redis',
+                ]
+            )) {
             $url .= "#" . $tab;
         }
 
