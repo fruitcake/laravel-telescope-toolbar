@@ -65,7 +65,7 @@ class Toolbar
 
     /**
      * @param \Illuminate\Http\Request $request A Request instance
-     * @param \Illuminate\Http\Response $response A Response instance
+     * @param \Symfony\Component\HttpFoundation\Response $response A Response instance
      */
     public function modifyResponse($request, $response)
     {
@@ -102,7 +102,7 @@ class Toolbar
      * Store the current Request in the the session
      *
      * @param \Illuminate\Http\Request $request A Request instance
-     * @param \Illuminate\Http\Response $response A Response instance
+     * @param \Symfony\Component\HttpFoundation\Response $response A Response instance
      */
     private function storeRedirectRequest($request, $response)
     {
@@ -118,7 +118,7 @@ class Toolbar
      * Injects the web debug toolbar into the given Response.
      *
      * @param \Illuminate\Http\Request $request A Request instance
-     * @param \Illuminate\Http\Response $response A Response instance
+     * @param \Symfony\Component\HttpFoundation\Response $response A Response instance
      */
     private function injectToolbar($request, $response)
     {
@@ -169,7 +169,7 @@ class Toolbar
      * Get the Request Stack
      *
      * @param \Illuminate\Http\Request $request A Request instance
-     * @param \Illuminate\Http\Response $response A Response instance
+     * @param \Symfony\Component\HttpFoundation\Response $response A Response instance
      * @return array
      */
     private function getRequestStack($request, $response): array
@@ -191,7 +191,7 @@ class Toolbar
      * Get the Request data
      *
      * @param \Illuminate\Http\Request $request A Request instance
-     * @param \Illuminate\Http\Response $response A Response instance
+     * @param \Symfony\Component\HttpFoundation\Response $response A Response instance
      * @return array
      */
     private function getRequestData($request, $response) : array
