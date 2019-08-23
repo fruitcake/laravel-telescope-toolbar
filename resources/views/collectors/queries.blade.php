@@ -13,7 +13,7 @@ foreach ($entries as $query) {
         $num_slow++;
     }
     $query_time += $query->content['time'] ?? 0;
-    $queries[$query->content['sql']] = $query->content['sql'];
+    $queries[$query->familyHash ?: $query->content['sql']] = $query->content['sql'];
 }
 
 $num_duplicated = $num_queries - count($queries);
