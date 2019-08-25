@@ -178,7 +178,10 @@
         padding: 4px 8px 4px 0;
     }
     .sf-toolbar-block:not(.sf-toolbar-block-dump) .sf-toolbar-info-piece span {
-        color: #fff;
+        color: #212529;
+    }
+    .sf-toolbar-block:not(.sf-toolbar-block-dump) .sf-toolbar-info-piece span.sf-toolbar-status {
+        color: #FFF;
     }
     .sf-toolbar-block .sf-toolbar-info-piece span {
         font-size: 12px;
