@@ -2,6 +2,7 @@
 
 namespace Fruitcake\TelescopeToolbar\Http\Controllers;
 
+use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\View;
@@ -36,7 +37,7 @@ class ToolbarController extends Controller
         ]);
     }
 
-    public function show($token, $tab = null)
+    public function show($token)
     {
         Telescope::stopRecording();
 
@@ -44,34 +45,11 @@ class ToolbarController extends Controller
 
         $request = $this->entriesRepository->get('request', $options)->first();
 
-        $url = route('telescope') . '/requests/' . $request->id;
-
-        if ($tab && in_array($tab,
-                [
-                    'exceptions',
-                    'logs',
-                    'views',
-                    'queries',
-                    'models',
-                    'jobs',
-                    'mails',
-                    'notifications',
-                    'events',
-                    'cache',
-                    'gates',
-                    'redis',
-                ]
-            )) {
-            $url .= "#" . $tab;
-        }
-
-        return redirect($url);
+        return redirect(route('telescope') . '/requests/' . $request->id);
     }
 
     public function baseJs()
     {
-        Telescope::stopRecording();
-
         $content = View::make('telescope-toolbar::base_js', [
             'excluded_ajax_paths' => config('telescope-toolbar.excluded_ajax_paths', '^/_tt'),
         ])->render();
@@ -83,11 +61,13 @@ class ToolbarController extends Controller
         ])->setClientTtl(31536000);
     }
 
-    public function styling()
+    public function styling(Request $request)
     {
-        Telescope::stopRecording();
-
-        $content = View::make('telescope-toolbar::styling')->render();
+        if ($request->get('lightMode')) {
+            $content = View::make('telescope-toolbar::styling_telescope')->render();
+        } else {
+            $content = View::make('telescope-toolbar::styling_symfony')->render();
+        }
 
         $content = $this->stripSurroundingTags($content);
 

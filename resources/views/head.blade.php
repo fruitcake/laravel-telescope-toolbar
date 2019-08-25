@@ -1,7 +1,7 @@
 
 <!-- Start of Telescope Toolbar assets !-->
 <script src="{{ route('telescope-toolbar.baseJs') }}?{{ $assetVersion }}"></script>
-<link href="{{ route('telescope-toolbar.styling') }}?{{ $assetVersion }}" rel="stylesheet">
+<link href="{{ route('telescope-toolbar.styling') }}?{{ $assetVersion }}&lightMode={{ $lightMode }}" rel="stylesheet">
 <script @if(isset($csp_script_nonce) && $csp_script_nonce) nonce="{{ $csp_script_nonce }}" @endif>/*<![CDATA[*/
     (function () {
         @foreach ($requestStack as $request)

@@ -17,6 +17,17 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Use Telescope Theme ('light mode')
+    |--------------------------------------------------------------------------
+    |
+    | This options disables the toolbar. Laravel Telescope needs to be
+    | enabled and Laravel needs to be in Debug mode.
+    |
+    */
+    'light_theme' => true,
+
+    /*
+    |--------------------------------------------------------------------------
     | Route path of Toolbar
     |--------------------------------------------------------------------------
     |
@@ -74,9 +85,6 @@ return [
         ],
         EntryType::EXCEPTION => [
             'telescope-toolbar::collectors.exceptions',
-        ],
-        'view' => [
-            'telescope-toolbar::collectors.views',
         ],
         EntryType::QUERY => [
             'telescope-toolbar::collectors.queries',

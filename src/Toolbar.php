@@ -65,7 +65,7 @@ class Toolbar
 
     /**
      * @param \Illuminate\Http\Request $request A Request instance
-     * @param \Symfony\Component\HttpFoundation\Response $response A Response instance
+     * @param \Illuminate\Http\Response $response A Response instance
      */
     public function modifyResponse($request, $response)
     {
@@ -81,8 +81,8 @@ class Toolbar
 
         // Inject headers in Ajax Requests
         if ($request->ajax()) {
-            $response->headers->set('x-debug-token', $this->getDebugToken($request));
-            $response->headers->set('x-debug-token-link', route('telescope-toolbar.show', [$this->getDebugToken($request)]));
+            $response->header('x-debug-token', $this->getDebugToken($request));
+            $response->header('x-debug-token-link', route('telescope-toolbar.show', [$this->getDebugToken($request)]));
 
             return;
         }
@@ -102,7 +102,7 @@ class Toolbar
      * Store the current Request in the the session
      *
      * @param \Illuminate\Http\Request $request A Request instance
-     * @param \Symfony\Component\HttpFoundation\Response $response A Response instance
+     * @param \Illuminate\Http\Response $response A Response instance
      */
     private function storeRedirectRequest($request, $response)
     {
@@ -118,7 +118,7 @@ class Toolbar
      * Injects the web debug toolbar into the given Response.
      *
      * @param \Illuminate\Http\Request $request A Request instance
-     * @param \Symfony\Component\HttpFoundation\Response $response A Response instance
+     * @param \Illuminate\Http\Response $response A Response instance
      */
     private function injectToolbar($request, $response)
     {
@@ -128,6 +128,7 @@ class Toolbar
 
         $head = View::make('telescope-toolbar::head', [
             'assetVersion' => static::ASSET_VERSION,
+            'lightMode' => config('telescope-toolbar.light_theme') ? 1 : 0,
             'requestStack' => $this->getRequestStack($request, $response),
         ])->render();
 
@@ -169,7 +170,7 @@ class Toolbar
      * Get the Request Stack
      *
      * @param \Illuminate\Http\Request $request A Request instance
-     * @param \Symfony\Component\HttpFoundation\Response $response A Response instance
+     * @param \Illuminate\Http\Response $response A Response instance
      * @return array
      */
     private function getRequestStack($request, $response): array
@@ -191,7 +192,7 @@ class Toolbar
      * Get the Request data
      *
      * @param \Illuminate\Http\Request $request A Request instance
-     * @param \Symfony\Component\HttpFoundation\Response $response A Response instance
+     * @param \Illuminate\Http\Response $response A Response instance
      * @return array
      */
     private function getRequestData($request, $response) : array
