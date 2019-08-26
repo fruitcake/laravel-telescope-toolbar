@@ -18,7 +18,7 @@ composer require fruitcake/laravel-telescope-toolbar --dev
 
 The Toolbar will show by default when Telescope is enabled on APP_DEBUG is true.
 
-![image](https://user-images.githubusercontent.com/973269/62854273-24ac7b80-bcef-11e9-9b31-5525a845d4d3.png)
+![image](https://user-images.githubusercontent.com/973269/63676710-d79ad000-c7eb-11e9-8793-c58c6bc25bbe.png)
 
 > Note: The Toolbar is intended for Development environments, not for production.
 
@@ -46,23 +46,20 @@ The Toolbar will show by default when Telescope is enabled on APP_DEBUG is true.
 
 Ajax/ Redirects stack:
 
-![image](https://user-images.githubusercontent.com/973269/62854008-5bce5d00-bcee-11e9-95f8-1a93cdd0a9f3.png)
+![image](https://user-images.githubusercontent.com/973269/63675364-ef248980-c7e8-11e9-8696-dbddd9feb4bd.png)
 
-Exception with preview / link to Telescope:
+Preview for Exceptions/Mail/Notifications/Log entries with link to details:
 
-![image](https://user-images.githubusercontent.com/973269/62854018-67ba1f00-bcee-11e9-99f6-9b1b8132bb4e.png)
+![image](https://user-images.githubusercontent.com/973269/63676030-67d81580-c7ea-11e9-9526-129bec5187f9.png)
 
 Counter for Queries (and Cache etc):
 
-![image](https://user-images.githubusercontent.com/973269/62854021-6ab50f80-bcee-11e9-891e-494ed89a8e48.png)
+![image](https://user-images.githubusercontent.com/973269/63675578-68bc7780-c7e9-11e9-915d-b955dd070c94.png)
 
-Preview for Mail/Notifications/Log entries with link to details:
 
-![image](https://user-images.githubusercontent.com/973269/62854027-6d176980-bcee-11e9-9020-c80705160a25.png)
+Catch `debug()`/`Toolbar::dump()` calls and show them directly in the Toolbar instead of the page:
 
-Catch `dump()` calls and show them directly in the Toolbar instead of the page:
-
-![image](https://user-images.githubusercontent.com/973269/62945077-4f293200-bdde-11e9-951d-4f19196395e5.png)
+![image](https://user-images.githubusercontent.com/973269/63676511-60653c00-c7eb-11e9-9b8e-9473964a29a8.png)
 
     
 ## License and attribution
