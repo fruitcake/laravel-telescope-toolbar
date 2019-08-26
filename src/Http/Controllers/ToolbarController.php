@@ -21,12 +21,16 @@ class ToolbarController extends Controller
     public function __construct(EntriesRepository $entriesRepository)
     {
         $this->entriesRepository = $entriesRepository;
+        
+        $this->middleware(function($request, $next) {
+            Telescope::stopRecording();
+
+            return $next($request);
+        });
     }
 
     public function render($token)
     {
-        Telescope::stopRecording();
-
         $this->prepareBlade($token);
 
         $options = $this->findBatchOptions($token);
@@ -40,8 +44,6 @@ class ToolbarController extends Controller
 
     public function show($token)
     {
-        Telescope::stopRecording();
-
         $options = $this->findBatchOptions($token);
 
         $request = $this->entriesRepository->get('request', $options)->first();
