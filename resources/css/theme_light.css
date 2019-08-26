@@ -86,11 +86,15 @@ div.sf-toolbar .sf-toolbar-block .sf-toolbar-info-piece a {
 .sf-toolbar-block:hover .sf-toolbar-icon,
 .sf-toolbar-block.hover .sf-toolbar-icon {
     background-color: #fff;
+    border-bottom: 2px solid #4040c8;
+    box-sizing: border-box;
+}
+
+.sf-toolbar-block:hover .sf-toolbar-info,
+.sf-toolbar-block.hover .sf-toolbar-info {
     box-shadow: 0px -2px 6px rgba(0,0,0,0.1);
     border-top-left-radius: 3px;
     border-top-right-radius: 3px;
-    border-bottom: 2px solid #4040c8;
-    box-sizing: border-box;
 }
 
 .sf-toolbar-info-piece b.sf-toolbar-ajax-info {
