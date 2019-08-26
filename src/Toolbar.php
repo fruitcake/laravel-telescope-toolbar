@@ -13,7 +13,7 @@ use Symfony\Component\VarDumper\Dumper\HtmlDumper;
 
 class Toolbar
 {
-    public const ASSET_VERSION = '20190821';
+    public const ASSET_VERSION = '20190826';
     private const KEY_REQUEST_STACK = '_tt.request_stack';
 
     protected $token = null;

@@ -1,0 +1,134 @@
+.sf-minitoolbar {
+    background-color: #3439BC;
+}
+
+.sf-toolbarreset {
+    background-color: #EEF1F3;
+    box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.2);
+    color: #212529;
+}
+
+.sf-toolbarreset .hide-button {
+    background: #3439BC;
+}
+
+.sf-toolbar-block .sf-toolbar-value {
+    color: #212529;
+}
+
+.sf-toolbar-block .sf-toolbar-label,
+.sf-toolbar-block .sf-toolbar-class-separator {
+    color: #212529;
+}
+
+.sf-toolbar-block hr {
+    border-top: 1px solid #212529;
+}
+
+.sf-toolbar-block .sf-toolbar-info-group {
+    border-bottom: 1px solid #212529;
+}
+
+div.sf-toolbar .sf-toolbar-block .sf-toolbar-info-piece a {
+    color: #3439bc;
+}
+
+.sf-toolbar-block .sf-toolbar-info-piece b {
+    color: #212529;
+}
+
+.sf-toolbar-block:not(.sf-toolbar-block-dump) .sf-toolbar-info-piece span {
+    color: #212529;
+}
+
+.sf-toolbar-block:not(.sf-toolbar-block-dump) .sf-toolbar-info-piece span.sf-toolbar-status {
+    color: #FFF;
+}
+
+.sf-toolbar-block .sf-toolbar-info {
+    background-color: #fff;
+    color: #212529;
+}
+
+.sf-toolbar-block .sf-toolbar-status {
+    background-color: #212529;
+    border-radius: 9999px;
+}
+
+.sf-toolbar-icon .sf-toolbar-status {
+    border-radius: 0px;
+}
+
+.sf-toolbar-block .sf-toolbar-status-green {
+    background-color: #38A169;
+}
+
+.sf-toolbar-block .sf-toolbar-status-red {
+    background-color: #E53E3E;
+}
+
+.sf-toolbar-block .sf-toolbar-status-yellow {
+    background-color: #D69E2E;
+}
+
+.sf-toolbar-block.sf-toolbar-status-green {
+    background-color: #38A169;
+}
+
+.sf-toolbar-block.sf-toolbar-status-red {
+    background-color: #E53E3E;
+}
+
+.sf-toolbar-block.sf-toolbar-status-yellow {
+    background-color: #D69E2E;
+}
+
+.sf-toolbar-block:hover .sf-toolbar-icon,
+.sf-toolbar-block.hover .sf-toolbar-icon {
+    background-color: #fff;
+    box-shadow: 0px -2px 6px rgba(0,0,0,0.1);
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+}
+
+.sf-toolbar-info-piece b.sf-toolbar-ajax-info {
+    color: #212529;
+}
+
+.sf-toolbar-ajax-requests td, .sf-toolbar-previews td {
+    background-color: #fff;
+    border-bottom: 1px solid #212529;
+    color: #212529;
+}
+
+.sf-toolbar-ajax-requests th, .sf-toolbar-previews th {
+    background-color: #EEF1F3;
+    color: #212529;
+}
+
+@keyframes sf-blink {
+    0% { background: #EEF1F3; }
+    50% { background: #444; }
+    100% { background: #EEF1F3; }
+}
+
+.sf-toolbar-block-dump pre.sf-dump {
+    background-color: #EEF1F3;
+}
+
+.sf-toolbar-block-dump .sf-toolbar-info-piece .sf-toolbar-file-line {
+    color: #EEF1F3;
+}
+
+.sf-toolbar-block .sf-toolbar-info-piece-additional-detail {
+    color: #EEF1F3;
+}
+
+.sf-error-toolbar .sf-toolbarreset {
+    background: #EEF1F3;
+    color: #212529;
+}
+
+.sf-error-toolbar .sf-toolbarreset a {
+    color: #3439bc;
+}

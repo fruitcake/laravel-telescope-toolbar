@@ -1,0 +1,29 @@
+.Whoops.container {
+    z-index: 99998;
+}
+
+
+.sf-toolbar-previews {
+    table-layout: auto;
+    width: 100%;
+}
+
+.sf-toolbar-previews td {
+    background-color: #444;
+    border-bottom: 1px solid #777;
+    color: #F5F5F5;
+    font-size: 12px;
+    padding: 4px;
+}
+
+.sf-toolbar-previews tr:last-child td {
+    border-bottom: 0;
+}
+
+.sf-toolbar-previews th {
+    background-color: #222;
+    border-bottom: 0;
+    color: #AAA;
+    font-size: 11px;
+    padding: 4px;
+}

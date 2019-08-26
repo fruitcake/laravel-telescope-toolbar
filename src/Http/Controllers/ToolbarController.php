@@ -5,6 +5,7 @@ namespace Fruitcake\TelescopeToolbar\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\View;
 use Laravel\Telescope\Contracts\EntriesRepository;
 use Laravel\Telescope\Storage\EntryQueryOptions;
@@ -63,13 +64,19 @@ class ToolbarController extends Controller
 
     public function styling(Request $request)
     {
+        $files = [
+            'base.css',
+            'custom.css',
+        ];
+
         if ($request->get('lightMode')) {
-            $content = View::make('telescope-toolbar::styling_telescope')->render();
-        } else {
-            $content = View::make('telescope-toolbar::styling_symfony')->render();
+            $files[] = 'theme_light.css';
         }
 
-        $content = $this->stripSurroundingTags($content);
+        $content = '';
+        foreach ($files as $file) {
+            $content .= File::get(__DIR__ . '/../../../resources/css/' . $file) . "\n";
+        }
 
         return response($content, 200, [
             'Content-Type' => 'text/css',
