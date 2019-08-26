@@ -86,6 +86,9 @@ return [
         EntryType::EXCEPTION => [
             'telescope-toolbar::collectors.exceptions',
         ],
+        'view' => [
+            'telescope-toolbar::collectors.views',
+        ],
         EntryType::QUERY => [
             'telescope-toolbar::collectors.queries',
         ],
