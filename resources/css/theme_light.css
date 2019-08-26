@@ -97,6 +97,14 @@ div.sf-toolbar .sf-toolbar-block .sf-toolbar-info-piece a {
     border-top-right-radius: 3px;
 }
 
+.sf-toolbar-block.sf-toolbar-status-red .sf-toolbar-icon {
+    background-color: #E53E3E;
+}
+
+.sf-toolbar-block.sf-toolbar-status-yellow .sf-toolbar-icon {
+    background-color: #D69E2E;
+}
+
 .sf-toolbar-info-piece b.sf-toolbar-ajax-info {
     color: #212529;
 }
