@@ -5,7 +5,7 @@
 
 
 ?>
-@component('telescope-toolbar::item', ['name' => 'dumps', 'link' => route('telescope') . '/dumps', 'status' => 'yellow'])
+@component('telescope-toolbar::item', ['name' => 'dump', 'link' => route('telescope') . '/dumps', 'status' => 'yellow'])
 
     @slot('icon')
         @ttIcon('dumps')
@@ -18,7 +18,7 @@
 
         @foreach ($entries->take(5) as $entry)
             <div class="sf-toolbar-info-piece">
-                <div class="sf-toolbar-dump" style="width: 480px;">
+                <div class="sf-toolbar-dump">
                     {!! $entry->content['dump']  !!}
                 </div>
 
