@@ -8,7 +8,13 @@ See https://github.com/laravel/telescope
 
 #### Install
 
-First install Telescope and check it works.
+First install Telescope and check it works (see https://laravel.com/docs/master/telescope)
+
+```bash
+composer require laravel/telescope
+php artisan telescope:install
+php artisan migrate
+```
 
 Then just install the package with Composer and it will register automatically:
 
