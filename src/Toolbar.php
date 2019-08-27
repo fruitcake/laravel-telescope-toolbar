@@ -81,8 +81,8 @@ class Toolbar
 
         // Inject headers in Ajax Requests
         if ($request->ajax()) {
-            $response->header('x-debug-token', $this->getDebugToken($request));
-            $response->header('x-debug-token-link', route('telescope-toolbar.show', [$this->getDebugToken($request)]));
+            $response->headers->set('x-debug-token', $this->getDebugToken($request));
+            $response->headers->set('x-debug-token-link', route('telescope-toolbar.show', [$this->getDebugToken($request)]));
 
             return;
         }
