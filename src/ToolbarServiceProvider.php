@@ -82,7 +82,11 @@ class ToolbarServiceProvider extends ServiceProvider
     {
         Event::listen(RequestHandled::class, function(RequestHandled $event) use ($toolbar) {
             Telescope::withoutRecording(function() use($event, $toolbar) {
-                $toolbar->modifyResponse($event->request, $event->response);
+                try {
+                    $toolbar->modifyResponse($event->request, $event->response);
+                } catch (\Throwable $e) {
+                    logger("Cannot load Telescope Toolbar: " . $e->getMessage(), ['exception' => $e]);
+                }
             });
         });
     }
