@@ -32,12 +32,26 @@ foreach ($entries as $entry) {
 
     @slot('text')
 
-        @foreach ($types as $type => $count)
-            <div class="sf-toolbar-info-piece">
-                <b>Cache {{ $type }}</b>
-                <span class="sf-toolbar-status ">{{ $count }}</span>
-            </div>
-        @endforeach
+           <table class="sf-toolbar-previews">
+            <thead>
+                <tr>
+                    <th>Key</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+                <tbody>
+                    @foreach ($entries as $entry)
+                        <tr>
+                            <td title="{{ $entry->content['key'] }}">
+                                {{ \Illuminate\Support\Str::limit($entry->content['key'], 60) }}
+                            </td>
+                            <td>
+                                {{ $entry->content['type'] }}
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+        </table>
 
     @endslot
 

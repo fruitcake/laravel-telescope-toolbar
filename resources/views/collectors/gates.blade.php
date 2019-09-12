@@ -15,5 +15,29 @@
     @endslot
 
 
+    @slot('text')
+
+        <table class="sf-toolbar-previews">
+            <thead>
+            <tr>
+                <th>Ability</th>
+                <th>Result</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach ($entries as $entry)
+                <tr>
+                    <td title="{{ $entry->content['ability'] }}">
+                        {{ \Illuminate\Support\Str::limit($entry->content['ability'], 60) }}
+                    </td>
+                    <td>
+                        {{ $entry->content['result'] }}
+                    </td>
+                </tr>
+            @endforeach
+            </tbody>
+        </table>
+
+    @endslot
 
 @endcomponent

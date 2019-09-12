@@ -16,7 +16,7 @@
 
     @slot("text")
 
-        @foreach ($entries->take(5) as $entry)
+        @foreach ($entries as $entry)
             <div class="sf-toolbar-info-piece">
                 <div class="sf-toolbar-dump">
                     {!! $entry->content['dump']  !!}
@@ -24,11 +24,6 @@
 
             </div>
 
-            @if ($entries->count() > 5)
-                <div class="sf-toolbar-info-piece">
-                    <span>Showing 5 of {{ $entries->count() }} entries..</span>
-                </div>
-            @endif
         @endforeach
 
     @endslot
