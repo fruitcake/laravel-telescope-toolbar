@@ -126,14 +126,6 @@ div.sf-toolbar .sf-toolbar-block .sf-toolbar-info-piece a {
     100% { background: #EEF1F3; }
 }
 
-.sf-toolbar-block-dump pre.sf-dump {
-    background-color: #EEF1F3;
-}
-
-.sf-toolbar-block-dump .sf-toolbar-info-piece .sf-toolbar-file-line {
-    color: #EEF1F3;
-}
-
 .sf-toolbar-block .sf-toolbar-info-piece-additional-detail {
     color: #EEF1F3;
 }

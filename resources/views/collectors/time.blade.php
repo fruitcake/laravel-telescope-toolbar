@@ -21,6 +21,11 @@ $data = $entries->first()->content;
             <span>{{ $data['duration'] }} ms</span>
         </div>
 
+        <div class="sf-toolbar-info-piece">
+            <b>Peak memory usage</b>
+            <span>{{ $data['memory'] }} MB</span>
+        </div>
+
     @endslot
 
 @endcomponent
