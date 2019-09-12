@@ -26,7 +26,7 @@
                 </thead>
 
                 <tbody>
-                    @foreach ($entries->take(5) as $entry)
+                    @foreach ($entries as $entry)
                         <tr>
                             <td>
                                 <a href="{{ route('telescope') }}/exceptions/{{ $entry->id }}" target="_telescope">
@@ -41,14 +41,6 @@
 
                         </tr>
                     @endforeach
-                    @if ($entries->count() > 5)
-                        <tfoot>
-                        <tr>
-                            <td>&nbsp;</td>
-                            <td><small>Showing 5 of {{ $entries->count() }} entries..</small></td>
-                        </tr>
-                        </tfoot>
-                    @endif
                 </tbody>
 
             </table>
