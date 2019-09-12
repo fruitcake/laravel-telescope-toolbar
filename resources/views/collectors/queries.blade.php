@@ -32,7 +32,7 @@ if ($num_queries > 0 && $num_duplicated > $num_queries *.75) {
 
         <span class="sf-toolbar-info-piece-additional-detail">
             <span class="sf-toolbar-label">in</span>
-            <span class="sf-toolbar-value">{{ $query_time }}</span>
+            <span class="sf-toolbar-value">{{ round($query_time) }}</span>
             <span class="sf-toolbar-label">ms</span>
         </span>
 
@@ -40,25 +40,31 @@ if ($num_queries > 0 && $num_duplicated > $num_queries *.75) {
 
     @slot('text')
 
-        <div class="sf-toolbar-info-piece">
-            <b>Database Queries</b>
-            <span class="sf-toolbar-status ">{{ $num_queries  }}</span>
-        </div>
+        <table class="sf-toolbar-previews">
+            <thead>
+            <tr>
+                <th>Query<br/><small>{{ $num_queries }} queries, {{ $num_duplicated }} of which are duplicated and {{ $num_slow }} slow.</small></th>
+                <th>Duration<br/><small>{{ number_format($query_time, 2) }} ms</small></th>
+                <th></th>
+            </tr>
+            </thead>
 
-        <div class="sf-toolbar-info-piece">
-            <b>Slow Queries</b>
-            <span class="sf-toolbar-status ">{{ $num_slow }}</span>
-        </div>
+            <tbody>
+            @foreach ($entries as $query)
+                <tr>
 
-        <div class="sf-toolbar-info-piece">
-            <b>Duplicate Queries</b>
-            <span class="sf-toolbar-status ">{{ $num_duplicated }}</span>
-        </div>
+                    <td title="{{ $query->content['sql'] }}">
+                        {{ \Illuminate\Support\Str::limit($query->content['sql'], 67) }}
+                    </td>
+                    <td>
+                        {{ number_format($query->content['time'], 2) }}ms
+                    </td>
 
-        <div class="sf-toolbar-info-piece">
-            <b>Query time</b>
-            <span>{{ $query_time }} ms</span>
-        </div>
+                </tr>
+            @endforeach
+            </tbody>
+
+        </table>
 
     @endslot
 
