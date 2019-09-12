@@ -45,21 +45,18 @@ if ($num_queries > 0 && $num_duplicated > $num_queries *.75) {
             <tr>
                 <th>Query<br/><small>{{ $num_queries }} queries, {{ $num_duplicated }} of which are duplicated and {{ $num_slow }} slow.</small></th>
                 <th>Duration<br/><small>{{ number_format($query_time, 2) }} ms</small></th>
-                <th></th>
             </tr>
             </thead>
 
             <tbody>
             @foreach ($entries as $query)
                 <tr>
-
                     <td title="{{ $query->content['sql'] }}">
                         {{ \Illuminate\Support\Str::limit($query->content['sql'], 67) }}
                     </td>
                     <td>
                         {{ number_format($query->content['time'], 2) }}ms
                     </td>
-
                 </tr>
             @endforeach
             </tbody>
