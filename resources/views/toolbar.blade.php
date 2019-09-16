@@ -4,7 +4,7 @@
 
 <!-- START of Laravel Telescope Toolbar -->
 <div id="sfMiniToolbar-{{ $token }}" class="sf-minitoolbar" data-no-turbolink>
-    <a href="#" title="Show Telescope toolbar" tabindex="-1" id="sfToolbarMiniToggler-{{ $token }}" accesskey="D">
+    <a class="open-button" href="#" title="Show Telescope toolbar" tabindex="-1" id="sfToolbarMiniToggler-{{ $token }}" accesskey="D">
         @ttIcon('telescope')
     </a>
 </div>

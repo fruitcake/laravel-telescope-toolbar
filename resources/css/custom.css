@@ -27,3 +27,7 @@
     font-size: 11px;
     padding: 4px;
 }
+
+.sf-minitoolbar .open-button svg {
+    max-height: 18px;
+}
