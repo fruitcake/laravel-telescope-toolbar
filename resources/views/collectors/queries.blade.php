@@ -51,7 +51,7 @@ if ($num_queries > 0 && $num_duplicated > $num_queries *.75) {
             <tbody>
             @foreach ($entries as $query)
                 <tr>
-                    <td title="{{ $query->content['sql'] }}">
+                    <td title="{{ $query->content['sql'] }}" class="monospace">
                         {{ \Illuminate\Support\Str::limit($query->content['sql'], 67) }}
                     </td>
                     <td>

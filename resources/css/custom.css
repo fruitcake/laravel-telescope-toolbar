@@ -16,6 +16,11 @@
     padding: 4px;
 }
 
+.sf-toolbar-previews td.monospace {
+    font-family: "Lucida Console", Monaco, monospace;
+    font-size: 10px;
+}
+
 .sf-toolbar-previews tr:last-child td {
     border-bottom: 0;
 }
