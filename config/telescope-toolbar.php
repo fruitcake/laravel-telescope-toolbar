@@ -42,11 +42,16 @@ return [
      |--------------------------------------------------------------------------
      |
      | The middleware that is used for the Telescope API routes. By default
-     | it will use the Telescope middleware. You can also pas an array.
+     | it will use the Telescope middleware.
      |
      */
-    'middleware' => 'telescope',
+    'middleware' => [
+        'telescope'
+    ],
 
+    'asset_middleware' => [
+        'web'
+    ],
 
     /*
     |--------------------------------------------------------------------------
