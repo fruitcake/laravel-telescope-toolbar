@@ -70,7 +70,7 @@ class ToolbarServiceProvider extends ServiceProvider
         return [
             'namespace' => 'Fruitcake\TelescopeToolbar\Http\Controllers',
             'prefix' => config('telescope-toolbar.path'),
-            'middleware' => 'telescope',
+            'middleware' => config('telescope-toolbar.middleware', 'telescope'),
         ];
     }
 

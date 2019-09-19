@@ -37,6 +37,18 @@ return [
     'path' => '_tt',
 
     /*
+     |--------------------------------------------------------------------------
+     | Middleware of Toolbar
+     |--------------------------------------------------------------------------
+     |
+     | The middleware that is used for the Telescope API routes. By default
+     | it will use the Telescope middleware. You can also pas an array.
+     |
+     */
+    'middleware' => 'telescope',
+
+
+    /*
     |--------------------------------------------------------------------------
     | Excluded Ajax Paths
     |--------------------------------------------------------------------------
