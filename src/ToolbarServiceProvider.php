@@ -38,9 +38,26 @@ class ToolbarServiceProvider extends ServiceProvider
      */
     private function registerRoutes()
     {
+        Route::group($this->assetsConfiguration(), function () {
+            $this->loadRoutesFrom(__DIR__.'/Http/assets.php');
+        });
+
         Route::group($this->routeConfiguration(), function () {
             $this->loadRoutesFrom(__DIR__.'/Http/routes.php');
         });
+    }
+
+    /**
+     * Get the Telescope Toolbar assets route group configuration array.
+     *
+     * @return array
+     */
+    private function assetsConfiguration()
+    {
+        return [
+            'namespace' => 'Fruitcake\TelescopeToolbar\Http\Controllers',
+            'prefix' => config('telescope-toolbar.path'),
+        ];
     }
 
     /**
