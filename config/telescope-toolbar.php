@@ -20,11 +20,11 @@ return [
     | Use Telescope Theme ('light mode')
     |--------------------------------------------------------------------------
     |
-    | This options disables the toolbar. Laravel Telescope needs to be
-    | enabled and Laravel needs to be in Debug mode.
+    | This option enabled/disables the Light Theme.
+    | Laravel Telescope toolbar has two themes; Light and Dark.
     |
     */
-    'light_theme' => true,
+    'light_theme' => env('TELESCOPE_LIGHT_THEME', true),
 
     /*
     |--------------------------------------------------------------------------
