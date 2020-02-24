@@ -25,6 +25,10 @@ class ToolbarController extends Controller
         $this->middleware(function($request, $next) {
             Telescope::stopRecording();
 
+            if ($request->hasSession()) {
+                $request->session()->reflash();
+            }
+
             return $next($request);
         });
     }
@@ -36,8 +40,6 @@ class ToolbarController extends Controller
         $options = $this->findBatchOptions($token);
 
         $entries = $this->entriesRepository->get(null, $options)->groupBy('type');
-        
-        session()->reflash();
 
         return View::make('telescope-toolbar::toolbar', [
             'entries' => $entries,
