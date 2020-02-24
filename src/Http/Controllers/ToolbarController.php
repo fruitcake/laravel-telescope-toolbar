@@ -25,6 +25,10 @@ class ToolbarController extends Controller
         $this->middleware(function($request, $next) {
             Telescope::stopRecording();
 
+            if ($request->hasSession()) {
+                $request->session()->reflash();
+            }
+
             return $next($request);
         });
     }
