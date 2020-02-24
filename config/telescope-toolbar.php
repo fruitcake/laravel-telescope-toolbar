@@ -20,11 +20,11 @@ return [
     | Use Telescope Theme ('light mode')
     |--------------------------------------------------------------------------
     |
-    | This option turn on or turn off the lights. 
-    | Laravel Telescope toolbar has two themes, light and dark.
+    | This option enabled/disables the Light Theme.
+    | Laravel Telescope toolbar has two themes; Light and Dark.
     |
     */
-    'light_theme' => env('TELESCOPE_LIGHT', true),
+    'light_theme' => env('TELESCOPE_LIGHT_THEME', true),
 
     /*
     |--------------------------------------------------------------------------
