@@ -2,6 +2,13 @@
     z-index: 99998;
 }
 
+.sf-toolbar-block.sf-toolbar-block-fullwidth .sf-toolbar-info {
+    max-width: none;
+    width: 100%;
+    position: fixed;
+    box-sizing: border-box;
+    left: 0;
+}
 
 .sf-toolbar-previews {
     table-layout: auto;
@@ -17,8 +24,15 @@
 }
 
 .sf-toolbar-previews td.monospace {
-    font-family: "Lucida Console", Monaco, monospace;
+    font-family: SFMono-Regular,Menlo,Monaco,Consolas,Liberation Mono,Courier New,monospace;
     font-size: 10px;
+}
+
+.sf-toolbar-previews td.sf-query {
+    font-family: SFMono-Regular,Menlo,Monaco,Consolas,Liberation Mono,Courier New,monospace;
+    font-size: 11px;
+    white-space: normal;
+    vertical-align: middle;
 }
 
 .sf-toolbar-previews tr:last-child td {
