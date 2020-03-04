@@ -373,7 +373,6 @@ div.sf-toolbar .sf-toolbar-block a:hover {
     100% { background: #222; }
 }
 
-.sf-toolbar-block.sf-toolbar-block-fullwidth .sf-toolbar-info,
 .sf-toolbar-block.sf-toolbar-block-dump .sf-toolbar-info {
     max-width: none;
     width: 100%;
