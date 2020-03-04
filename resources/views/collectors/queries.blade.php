@@ -23,7 +23,7 @@ if ($num_queries > 0 && $num_duplicated > $num_queries *.75) {
     $statusColor = null;
 }
 ?>
-@component('telescope-toolbar::item', ['name' => 'queries', 'link' => true, 'status' => $statusColor])
+@component('telescope-toolbar::item', ['name' => 'queries', 'link' => true, 'status' => $statusColor, 'additional_classes' => 'sf-toolbar-block-fullwidth'])
 
     @slot('icon')
         @ttIcon('queries')
@@ -44,18 +44,21 @@ if ($num_queries > 0 && $num_duplicated > $num_queries *.75) {
             <thead>
             <tr>
                 <th>Query<br/><small>{{ $num_queries }} queries, {{ $num_duplicated }} of which are duplicated and {{ $num_slow }} slow.</small></th>
-                <th>Duration<br/><small>{{ number_format($query_time, 2) }} ms</small></th>
+                <th style="width: 30px">Duration<br/><small>{{ number_format($query_time, 2) }} ms</small></th>
             </tr>
             </thead>
 
             <tbody>
             @foreach ($entries as $query)
+                @php($path = str_replace(base_path(), '', $query->content['file']))
                 <tr>
-                    <td title="{{ $query->content['sql'] }}" class="monospace">
-                        {{ \Illuminate\Support\Str::limit($query->content['sql'], 67) }}
+                    <td class="monospace sf-query">
+                        {{ $query->content['sql'] }}
                     </td>
-                    <td>
-                        {{ number_format($query->content['time'], 2) }}ms
+
+                    <td title="{{ $path }}:{{ $query->content['line'] }}">
+                        {{ number_format($query->content['time'], 2) }}ms<br/>
+                        <small>{{ strlen($path) > 32 ? '..' . substr($path, -30) : $path }}:{{ $query->content['line'] }}</small>
                     </td>
                 </tr>
             @endforeach
