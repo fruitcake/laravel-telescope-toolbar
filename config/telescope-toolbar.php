@@ -13,7 +13,7 @@ return [
     | enabled and Laravel needs to be in Debug mode.
     |
     */
-    'enabled' => env('TELESCOPE_ENABLED', true),
+    'enabled' => env('TELESCOPE_TOOLBAR_ENABLED', env('TELESCOPE_ENABLED', true)),
 
     /*
     |--------------------------------------------------------------------------
