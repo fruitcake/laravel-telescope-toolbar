@@ -57,7 +57,7 @@ if ($num_queries > 0 && $num_duplicated > $num_queries *.75) {
                     </td>
 
                     <td title="{{ $path }}:{{ $query->content['line'] }}">
-                        {{ number_format($query->content['time'], 2) }}ms<br/>
+                        {{ number_format((float) str_replace(',', '', $query->content['time']), 2) }}ms<br/>
                         <small>{{ strlen($path) > 32 ? '..' . substr($path, -30) : $path }}:{{ $query->content['line'] }}</small>
                     </td>
                 </tr>
