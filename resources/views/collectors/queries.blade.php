@@ -12,7 +12,7 @@ foreach ($entries as $query) {
     if ($query->content['slow'] ?? false) {
         $num_slow++;
     }
-    $query_time += $query->content['time'] ?? 0;
+    $query_time += (float) str_replace(',', '', $query->content['time']) ?? 0;
     $queries[$query->content['hash'] ?? $query->content['sql']] = $query->content['sql'];
 }
 
