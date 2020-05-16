@@ -22,7 +22,7 @@ Then just install the package with Composer and it will register automatically:
 composer require fruitcake/laravel-telescope-toolbar --dev
 ```
 
-The Toolbar will show by default when Telescope is enabled on APP_DEBUG is true.
+The Toolbar will show by default when Telescope is enabled and APP_DEBUG is true.
 
 ![image](https://user-images.githubusercontent.com/973269/63676710-d79ad000-c7eb-11e9-8793-c58c6bc25bbe.png)
 
