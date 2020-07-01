@@ -24,6 +24,11 @@ class ToolbarServiceProvider extends ServiceProvider
 
         $this->registerRoutes();
         $this->registerPublishing();
+
+        if (! $this->runningApprovedRequest()) {
+            return;
+        }
+
         $this->registerResponseHandler($toolbar);
         $this->registerDumpWatcher();
         $this->loadViewsFrom(
@@ -89,6 +94,27 @@ class ToolbarServiceProvider extends ServiceProvider
         }
     }
 
+    /**
+     * Determine if the application is handling an approved request.
+     *
+     * @param  \Illuminate\Foundation\Application  $app
+     * @return bool
+     */
+    private function runningApprovedRequest()
+    {
+        return ! $this->app->runningInConsole() && ! $this->app['request']->is(
+            array_merge([
+                config('telescope.path').'*',
+                'telescope-api*',
+                'vendor/telescope*',
+                'horizon*',
+                'vendor/horizon*',
+            ],
+            config('telescope.ignore_paths', []),
+            config('telescope-toolbar.ignore_paths'))
+        );
+    }
+    
     /**
      * Listen to the RequestHandled event to prepare the Response.
      *
