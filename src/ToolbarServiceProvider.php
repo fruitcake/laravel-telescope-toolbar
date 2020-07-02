@@ -111,7 +111,7 @@ class ToolbarServiceProvider extends ServiceProvider
                 'vendor/horizon*',
             ],
             config('telescope.ignore_paths', []),
-            config('telescope-toolbar.ignore_paths'))
+            config('telescope-toolbar.ignore_paths', []))
         );
     }
     
