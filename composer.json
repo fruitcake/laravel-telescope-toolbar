@@ -14,10 +14,10 @@
     }
   ],
   "require": {
-    "php": "^7.1.3",
+    "php": "^7.3",
     "ext-json": "*",
-    "laravel/framework": "^5.8|^6|^7",
-    "laravel/telescope": "^2.1|^3.0"
+    "laravel/framework": "^8",
+    "laravel/telescope": "^4"
   },
   "autoload": {
     "psr-4": {
@@ -31,7 +31,7 @@
   "prefer-stable": true,
   "extra": {
     "branch-alias": {
-      "dev-master": "1.1-dev"
+      "dev-master": "1.3-dev"
     },
     "laravel": {
       "providers": [
