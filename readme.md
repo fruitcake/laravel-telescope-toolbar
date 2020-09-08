@@ -28,6 +28,14 @@ The Toolbar will show by default when Telescope is enabled and APP_DEBUG is true
 
 > Note: The Toolbar is intended for Development environments, not for production.
 
+## Publishing the config
+
+Run this command to publish the config for this package:
+
+```php
+php artisan vendor:publish --provider="Fruitcake\\TelescopeToolbar\\ToolbarServiceProvider"
+```
+
 #### Current Features
 
  - Inject Toolbar for quick info
