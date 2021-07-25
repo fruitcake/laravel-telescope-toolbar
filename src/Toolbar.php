@@ -78,14 +78,27 @@ class Toolbar
             return;
         }
 
+        $includedPath = $request->is(config('telescope-toolbar.included_request_paths', []));
 
         // Inject headers in Ajax Requests
-        if ($request->ajax() || $request->headers->get('X-Livewire')) {
+        if ($includedPath || $request->ajax() || $request->headers->get('X-Livewire')) {
             $response->headers->set('x-debug-token', $this->getDebugToken($request));
             $response->headers->set('x-debug-token-link', route('telescope-toolbar.show', [$this->getDebugToken($request)]));
 
             return;
         }
+
+        $this->app['request']->is(
+            array_merge([
+                config('telescope.path').'*',
+                'telescope-api*',
+                'vendor/telescope*',
+                'horizon*',
+                'vendor/horizon*',
+            ],
+                config('telescope.ignore_paths', []),
+                config('telescope-toolbar.ignore_paths', []))
+        );
 
         // Skip non-html requests
         if (($response->headers->has('Content-Type') && strpos($response->headers->get('Content-Type'), 'html') === false)
