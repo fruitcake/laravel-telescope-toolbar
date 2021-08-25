@@ -128,7 +128,8 @@ class Toolbar
 
         $head = View::make('telescope-toolbar::head', [
             'assetVersion' => static::ASSET_VERSION,
-            'lightMode' => config('telescope-toolbar.light_theme') ? 1 : 0,
+            'lightMode' => config('telescope-toolbar.light_theme') === 'auto' ? 'auto'
+                        : (config('telescope-toolbar.light_theme') ? 1 : 0),
             'requestStack' => $this->getRequestStack($request, $response),
         ])->render();
 
