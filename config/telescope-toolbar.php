@@ -61,7 +61,7 @@ return [
     | This Javascript RegExp excludes Ajax Requests from being collected.
     |
     */
-    'excluded_ajax_paths' => '^/_tt|^/_debugbar|^/horizon',
+    'excluded_ajax_paths' => '^/_tt|^/_debugbar|^/horizon|^/broadcasting',
 
     /*
     |--------------------------------------------------------------------------
