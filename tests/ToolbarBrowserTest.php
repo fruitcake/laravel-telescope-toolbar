@@ -25,7 +25,7 @@ class ToolbarBrowserTest extends BrowserTestCase
         $this->addWebRoutes($router);
         $this->addApiRoutes($router);
 
-        \Orchestra\Testbench\Dusk\Options::withoutUI();
+//        \Orchestra\Testbench\Dusk\Options::withoutUI();
     }
 
     /**
@@ -63,8 +63,8 @@ class ToolbarBrowserTest extends BrowserTestCase
         $this->browse(function ($browser) {
             $browser->visit('web/plain')
                 ->assertSee('PONG')
-                ->waitFor('.sf-minitoolbar')
-                ->assertSee('GET web/plain');
+                ->waitFor('.sf-toolbarreset')
+                ;
         });
     }
 
@@ -73,8 +73,8 @@ class ToolbarBrowserTest extends BrowserTestCase
         $this->browse(function ($browser) {
             $browser->visit('web/html')
                 ->assertSee('HTMLPONG')
-                ->waitFor('.sf-minitoolbar')
-                ->assertSee('GET web/html');
+                ->waitFor('.sf-toolbarreset')
+                ;
         });
     }
 
