@@ -4,12 +4,23 @@ namespace Fruitcake\TelescopeToolbar\Tests;
 
 use Fruitcake\TelescopeToolbar\Toolbar;
 use Fruitcake\TelescopeToolbar\ToolbarServiceProvider;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Laravel\Telescope\Storage\DatabaseEntriesRepository;
 use Laravel\Telescope\TelescopeServiceProvider;
 
 class BrowserTestCase extends \Orchestra\Testbench\Dusk\TestCase
 {
+    use RefreshDatabase;
+
     protected static $baseServeHost = '127.0.0.1';
     protected static $baseServePort = 9292;
+
+
+
+    protected function defineDatabaseMigrations()
+    {
+        $this->loadMigrationsFrom(__DIR__ . '/../vendor/laravel/telescope/database/migrations');
+    }
 
     /**
      * Get package providers.

@@ -63,8 +63,8 @@ class ToolbarBrowserTest extends BrowserTestCase
         $this->browse(function ($browser) {
             $browser->visit('web/plain')
                 ->assertSee('PONG')
-                ->waitFor('.sf-toolbarreset')
-                ;
+                ->waitFor('.sf-toolbar-block')
+                ->assertSee('GET /web/plain');
         });
     }
 
@@ -73,8 +73,8 @@ class ToolbarBrowserTest extends BrowserTestCase
         $this->browse(function ($browser) {
             $browser->visit('web/html')
                 ->assertSee('HTMLPONG')
-                ->waitFor('.sf-toolbarreset')
-                ;
+                ->waitFor('.sf-toolbar-block')
+                ->assertSee('GET /web/html');
         });
     }
 
