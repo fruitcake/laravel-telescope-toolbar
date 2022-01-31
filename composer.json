@@ -17,8 +17,7 @@
     "php": "^7.3|^8",
     "ext-json": "*",
     "laravel/framework": "^8|^9",
-    "laravel/telescope": "^4",
-    "ramsey/uuid": "^4"
+    "laravel/telescope": "^4"
   },
   "require-dev": {
     "orchestra/testbench-dusk": "^6|^7"
