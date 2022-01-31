@@ -102,7 +102,7 @@ class ToolbarServiceProvider extends ServiceProvider
      */
     private function runningApprovedRequest()
     {
-        return ! $this->app->runningInConsole() && ! $this->app['request']->is(
+        return ! $this->runningInConsole() && ! $this->app['request']->is(
             array_merge([
                 config('telescope.path').'*',
                 'telescope-api*',
@@ -113,6 +113,11 @@ class ToolbarServiceProvider extends ServiceProvider
             config('telescope.ignore_paths', []),
             config('telescope-toolbar.ignore_paths', []))
         );
+    }
+
+    private function runningInConsole()
+    {
+        return $this->app->runningInConsole() && !$this->app->environment('self-testing');
     }
     
     /**

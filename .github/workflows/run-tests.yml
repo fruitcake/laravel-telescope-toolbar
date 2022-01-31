@@ -21,7 +21,7 @@ jobs:
       matrix:
         php: [8.1, 8.0, 7.4, 7.3]
         laravel: [8.*, 9.*]
-        dependency-version: [prefer-lowest, prefer-stable]
+        dependency-version: [prefer-stable]
         exclude:
           - laravel: 9.*
             php: 7.2
@@ -50,3 +50,16 @@ jobs:
 
     - name: Update Dusk Chromedriver
       run: vendor/bin/dusk-updater detect --auto-update
+
+    - name: Install Sqlite Database
+      run: vendor/orchestra/testbench-dusk/create-sqlite-db
+
+    - name: Execute Unit Tests
+      run: composer test
+
+    - name: Upload Failed Screenshots
+      uses: actions/upload-artifact@v2-preview
+      if: failure()
+      with:
+        name: screenshots
+        path: tests/Browser/screenshots/*
