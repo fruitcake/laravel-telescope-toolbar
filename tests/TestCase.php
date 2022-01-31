@@ -5,9 +5,8 @@ namespace Fruitcake\TelescopeToolbar\Tests;
 use Fruitcake\TelescopeToolbar\Toolbar;
 use Fruitcake\TelescopeToolbar\ToolbarServiceProvider;
 use Illuminate\Routing\Router;
-use Orchestra\Testbench\TestCase as Orchestra;
 
-class TestCase extends Orchestra
+class TestCase extends TelescopeFeatureTestCase
 {
     /**
      * Get package providers.
@@ -18,7 +17,7 @@ class TestCase extends Orchestra
      */
     protected function getPackageProviders($app)
     {
-        return [ToolbarServiceProvider::class];
+        return array_merge(parent::getPackageProviders($app), [ToolbarServiceProvider::class]);
     }
 
     /**
@@ -30,7 +29,7 @@ class TestCase extends Orchestra
      */
     protected function getPackageAliases($app)
     {
-        return ['Toolbar' => Toolbar::class];
+        return array_merge(parent::getPackageProviders($app), ['Toolbar' => Toolbar::class]);
     }
 
     /**
@@ -42,6 +41,8 @@ class TestCase extends Orchestra
      */
     protected function getEnvironmentSetUp($app)
     {
+        parent::getEnvironmentSetUp($app);
+
         /** @var Router $router */
         $router = $app['router'];
 

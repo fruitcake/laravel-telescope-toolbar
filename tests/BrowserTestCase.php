@@ -4,6 +4,7 @@ namespace Fruitcake\TelescopeToolbar\Tests;
 
 use Fruitcake\TelescopeToolbar\Toolbar;
 use Fruitcake\TelescopeToolbar\ToolbarServiceProvider;
+use Laravel\Telescope\TelescopeServiceProvider;
 
 class BrowserTestCase extends \Orchestra\Testbench\Dusk\TestCase
 {
@@ -19,7 +20,7 @@ class BrowserTestCase extends \Orchestra\Testbench\Dusk\TestCase
      */
     protected function getPackageProviders($app)
     {
-        return [ToolbarServiceProvider::class];
+        return [TelescopeServiceProvider::class, ToolbarServiceProvider::class];
     }
 
     /**
