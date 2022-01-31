@@ -1,7 +1,10 @@
 ## Laravel Telescope Toolbar
+![Unit Tests](https://github.com/fruitcake/laravel-telescope-toolbar/workflows/Unit%20Tests/badge.svg)
 [![Packagist License](https://poser.pugx.org/fruitcake/laravel-telescope-toolbar/license.png)](http://choosealicense.com/licenses/mit/)
 [![Latest Stable Version](https://poser.pugx.org/fruitcake/laravel-telescope-toolbar/version.png)](https://packagist.org/packages/fruitcake/laravel-telescope-toolbar)
 [![Total Downloads](https://poser.pugx.org/fruitcake/laravel-telescope-toolbar/d/total.png)](https://packagist.org/packages/fruitcake/laravel-telescope-toolbar)
+[![Fruitcake](https://img.shields.io/badge/Powered%20By-Fruitcake-b2bc35.svg)](https://fruitcake.nl/)
+
 
 ### Extends Laravel Telescope to show a powerful Toolbar
 See https://github.com/laravel/telescope
@@ -75,6 +78,11 @@ Catch `debug()`/`Toolbar::dump()` calls and show them directly in the Toolbar in
 
 ![image](https://user-images.githubusercontent.com/973269/63676511-60653c00-c7eb-11e9-9b8e-9473964a29a8.png)
 
+## Running the Test Suite
+
+- Make sure ChromeDriver is up to date: `vendor/bin/dusk-updater detect --auto-update`
+- Create the Sqlite database: `vendor/orchestra/testbench-dusk/create-sqlite-db`
+- Run the tests: `composer test`
     
 ## License and attribution
 
