@@ -90,7 +90,7 @@ class Toolbar
         // Skip non-html requests
         if (($response->headers->has('Content-Type') && strpos($response->headers->get('Content-Type'), 'html') === false)
             || $request->getRequestFormat() !== 'html'
-            || stripos($response->headers->get('Content-Disposition'), 'attachment;') !== false
+            || stripos($response->headers->get('Content-Disposition') ?? '', 'attachment;') !== false
         ) {
             return;
         }
