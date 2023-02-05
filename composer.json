@@ -14,13 +14,13 @@
     }
   ],
   "require": {
-    "php": "^7.3|^8",
+    "php": "^8",
     "ext-json": "*",
-    "laravel/framework": "^8|^9",
+    "laravel/framework": "^9|^10",
     "laravel/telescope": "^4"
   },
   "require-dev": {
-    "orchestra/testbench-dusk": "^6|^7"
+    "orchestra/testbench-dusk": "^6|^7|^8"
   },
   "autoload": {
     "psr-4": {
