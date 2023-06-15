@@ -96,7 +96,7 @@
             var newState = Sfjs.getPreference('toolbar/ajax/replace') !== 'manual' ?  'manual' : 'auto' ;
             Sfjs.setPreference('toolbar/ajax/replace', newState);
             document.querySelector('.sf-toolbar-ajax-replace-state').innerHTML =  newState === 'manual' ? 'Manual' : 'Auto';
-        }
+        };
 
         var successStreak = 4;
         var pendingRequests = 0;
