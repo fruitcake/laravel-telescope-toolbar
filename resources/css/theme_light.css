@@ -7,6 +7,7 @@
 
 .sf-toolbarreset .hide-button, .sf-toolbarreset .hide-button:hover {
     background: #EEF1F3;
+    color: var(--sf-toolbar-gray-800);
 }
 
 .sf-toolbar-block .sf-toolbar-value {
