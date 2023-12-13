@@ -1,4 +1,5 @@
-<script @if(isset($csp_script_nonce) && $csp_script_nonce) nonce="{{ $csp_script_nonce }}" @endif>
+<script @if(isset($csp_script_nonce) && $csp_script_nonce) nonce="{{ $csp_script_nonce }}" @endif>/*<![CDATA[*/
+if (typeof Sfjs === 'undefined' || typeof Sfjs.loadToolbar === 'undefined') {
     Sfjs = (function() {
         "use strict";
 
@@ -31,10 +32,41 @@
             };
         }
 
-        var request = function(url, onSuccess, onError, payload, options) {
+        if (navigator.clipboard) {
+            document.addEventListener('readystatechange', () => {
+                if (document.readyState !== 'complete') {
+                    return;
+                }
+
+                document.querySelectorAll('[data-clipboard-text]').forEach(function (element) {
+                    removeClass(element, 'hidden');
+                    element.addEventListener('click', function () {
+                        navigator.clipboard.writeText(element.getAttribute('data-clipboard-text'));
+
+                        if (element.classList.contains("label")) {
+                            let oldContent = element.textContent;
+
+                            element.textContent = "✅ Copied!";
+                            element.classList.add("status-success");
+
+                            setTimeout(() => {
+                                element.textContent = oldContent;
+                                element.classList.remove("status-success");
+                            }, 7000);
+                        }
+                    });
+                });
+            });
+        }
+
+        var request = function(url, onSuccess, onError, payload, options, tries) {
             var xhr = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
             options = options || {};
-            options.maxTries = options.maxTries || 0;
+            options.retry = options.retry || false;
+            tries = tries || 1;
+            /* this delays for 125, 375, 625, 875, and 1000, ... */
+            var delay = tries < 5 ? (tries - 0.5) * 250 : 1000;
+
             xhr.open(options.method || 'GET', url, true);
             xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
             xhr.onreadystatechange = function(state) {
@@ -42,11 +74,13 @@
                     return null;
                 }
 
-                if (xhr.status == 404 && options.maxTries > 1) {
-                    setTimeout(function(){
-                        options.maxTries--;
-                        request(url, onSuccess, onError, payload, options);
-                    }, 1000);
+                if (xhr.status == 404 && options.retry && !options.stop) {
+                    setTimeout(function() {
+                        if (options.stop) {
+                            return;
+                        }
+                        request(url, onSuccess, onError, payload, options, tries + 1);
+                    }, delay);
 
                     return null;
                 }
@@ -57,6 +91,11 @@
                     (onError || noop)(xhr);
                 }
             };
+
+            if (options.onSend) {
+                options.onSend(tries);
+            }
+
             xhr.send(payload || '');
         };
 
@@ -90,12 +129,10 @@
             if (ret = allHeaders.match(/^x-debug-token-link:\s+(.*)$/im)) {
                 stackElement.profilerUrl = ret[1];
             }
-        };
-
-        var togglePreference = function() {
-            var newState = Sfjs.getPreference('toolbar/ajax/replace') !== 'manual' ?  'manual' : 'auto' ;
-            Sfjs.setPreference('toolbar/ajax/replace', newState);
-            document.querySelector('.sf-toolbar-ajax-replace-state').innerHTML =  newState === 'manual' ? 'Manual' : 'Auto';
+            if (ret = allHeaders.match(/^Symfony-Debug-Toolbar-Replace:\s+(.*)$/im)) {
+                stackElement.toolbarReplaceFinished = false;
+                stackElement.toolbarReplace = '1' === ret[1];
+            }
         };
 
         var successStreak = 4;
@@ -109,7 +146,7 @@
 
             var infoSpan = document.querySelector(".sf-toolbar-ajax-info");
             if (infoSpan) {
-                infoSpan.textContent = requestStack.length + ' Request' + (requestStack.length !== 1 ? 's' : '');
+                infoSpan.textContent = requestStack.length + ' AJAX request' + (requestStack.length !== 1 ? 's' : '');
             }
 
             var ajaxToolbarPanel = document.querySelector('.sf-toolbar-block-ajax');
@@ -127,16 +164,6 @@
                 removeClass(ajaxToolbarPanel, 'sf-ajax-request-loading');
                 removeClass(ajaxToolbarPanel, 'sf-toolbar-status-red');
             }
-
-            addEventListener(document.querySelector('.sf-toolbar-ajax-clear'), 'click', function() {
-                requestStack = [];
-                renderAjaxRequests();
-                successStreak = 4;
-                document.querySelector('.sf-toolbar-ajax-request-list').innerHTML = '';
-            });
-
-            document.querySelector('.sf-toolbar-ajax-replace-state').innerHTML = Sfjs.getPreference('toolbar/ajax/replace') === 'manual' ? 'Manual' : 'Auto';
-            addEventListener(document.querySelector('.sf-toolbar-ajax-replace-toggle'), 'click', togglePreference);
         };
 
         var startAjaxRequest = function(index) {
@@ -196,16 +223,14 @@
             row.appendChild(durationCell);
 
             request.liveDurationHandle = setInterval(function() {
-                durationCell.textContent = (new Date() - request.start) + 'ms';
+                durationCell.textContent = (new Date() - request.start) + ' ms';
             }, 100);
 
             row.className = 'sf-ajax-request sf-ajax-request-loading';
             tbody.insertBefore(row, null);
 
             var toolbarInfo = document.querySelector('.sf-toolbar-block-ajax .sf-toolbar-info');
-            if (toolbarInfo) {
-              toolbarInfo.scrollTop = toolbarInfo.scrollHeight;
-            }
+            toolbarInfo.scrollTop = toolbarInfo.scrollHeight;
 
             renderAjaxRequests();
         };
@@ -218,7 +243,7 @@
                 return;
             }
 
-            if (Sfjs.getPreference('toolbar/ajax/replace') !== 'manual' && !request.toolbarReplaceFinished && request.profile) {
+            if (request.toolbarReplace && !request.toolbarReplaceFinished && request.profile) {
                 /* Flag as complete because finishAjaxRequest can be called multiple times. */
                 request.toolbarReplaceFinished = true;
                 /* Search up through the DOM to find the toolbar's container ID. */
@@ -262,26 +287,14 @@
             }
 
             if (request.duration) {
-                durationCell.textContent = request.duration + 'ms';
+                durationCell.textContent = request.duration + ' ms';
             }
 
-            if (request.profile) {
+            if (request.profilerUrl) {
                 profilerCell.textContent = '';
                 var profilerLink = document.createElement('a');
-                profilerLink.setAttribute('href', request.profilerUrl || '#');
-                profilerLink.setAttribute('target', '_profiler');
-                profilerLink.textContent = 'Load';
-
-                profilerLink.addEventListener("click", function(e){
-                    e.preventDefault();
-                    for (var elem = request.DOMNode; elem && elem !== document; elem = elem.parentNode) {
-                        if (elem.id.match(/^sfwdt/)) {
-                            Sfjs.loadToolbar(elem.id.replace(/^sfwdt/, ''), request.profile);
-                            return false;
-                        }
-                    }
-                });
-
+                profilerLink.setAttribute('href', request.profilerUrl);
+                profilerLink.textContent = request.profile;
                 profilerCell.appendChild(profilerLink);
             }
 
@@ -330,6 +343,7 @@
                         stackElement.profile = r.headers.get('x-debug-token');
                         stackElement.profilerUrl = r.headers.get('x-debug-token-link');
                         stackElement.toolbarReplaceFinished = false;
+                        stackElement.toolbarReplace = '1' === r.headers.get('Symfony-Debug-Toolbar-Replace');
                         finishAjaxRequest(idx);
                     }, function (e){
                         stackElement.error = true;
@@ -349,19 +363,19 @@
 
                 /* prevent logging AJAX calls to static and inline files, like templates */
                 var path = url;
-                if (url.substr(0, 1) === '/') {
+                if (url.slice(0, 1) === '/') {
                     if (0 === url.indexOf('{{ asset('/') }}')) {
-                        path = url.substr({{ strlen( asset('/')) }});
+                        path = url.slice({{ strlen( asset('/')) }});
                     }
                 }
                 else if (0 === url.indexOf('{{ url('/') }}')) {
-                    path = url.substr({{ strlen( url('/')) }});
+                    path = url.slice({{ strlen( url('/')) }});
                 }
 
                 if (!path.match(new RegExp(@json($excluded_ajax_paths)))) {
                     var stackElement = {
                         error: false,
-                        url: path,
+                        url: url,
                         method: method,
                         type: 'xhr',
                         start: new Date()
@@ -409,6 +423,14 @@
 
             renderAjaxRequests: renderAjaxRequests,
 
+            getSfwdt: function(token) {
+                if (!this.sfwdt) {
+                    this.sfwdt = document.getElementById('sfwdt' + token);
+                }
+
+                return this.sfwdt;
+            },
+
             load: function(selector, url, onSuccess, onError, options) {
                 var el = document.getElementById(selector);
 
@@ -439,12 +461,102 @@
                 return this;
             },
 
+            showToolbar: function(token) {
+                var sfwdt = this.getSfwdt(token);
+                removeClass(sfwdt, 'sf-display-none');
+
+                if (getPreference('toolbar/displayState') == 'none') {
+                    document.getElementById('sfToolbarMainContent-' + token).style.display = 'none';
+                    document.getElementById('sfToolbarClearer-' + token).style.display = 'none';
+                    document.getElementById('sfMiniToolbar-' + token).style.display = 'block';
+                } else {
+                    document.getElementById('sfToolbarMainContent-' + token).style.display = 'block';
+                    document.getElementById('sfToolbarClearer-' + token).style.display = 'block';
+                    document.getElementById('sfMiniToolbar-' + token).style.display = 'none';
+                }
+            },
+
+            hideToolbar: function(token) {
+                var sfwdt = this.getSfwdt(token);
+                addClass(sfwdt, 'sf-display-none');
+            },
+
+            initToolbar: function(token) {
+                this.showToolbar(token);
+
+                var hideButton = document.getElementById('sfToolbarHideButton-' + token);
+                var hideButtonSvg = hideButton.querySelector('svg');
+                hideButtonSvg.setAttribute('aria-hidden', 'true');
+                hideButtonSvg.setAttribute('focusable', 'false');
+                addEventListener(hideButton, 'click', function (event) {
+                    event.preventDefault();
+
+                    var p = this.parentNode;
+                    p.style.display = 'none';
+                    (p.previousElementSibling || p.previousSibling).style.display = 'none';
+                    document.getElementById('sfMiniToolbar-' + token).style.display = 'block';
+                    setPreference('toolbar/displayState', 'none');
+                });
+
+                var showButton = document.getElementById('sfToolbarMiniToggler-' + token);
+                var showButtonSvg = showButton.querySelector('svg');
+                showButtonSvg.setAttribute('aria-hidden', 'true');
+                showButtonSvg.setAttribute('focusable', 'false');
+                addEventListener(showButton, 'click', function (event) {
+                    event.preventDefault();
+
+                    var elem = this.parentNode;
+                    if (elem.style.display == 'none') {
+                        document.getElementById('sfToolbarMainContent-' + token).style.display = 'none';
+                        document.getElementById('sfToolbarClearer-' + token).style.display = 'none';
+                        elem.style.display = 'block';
+                    } else {
+                        document.getElementById('sfToolbarMainContent-' + token).style.display = 'block';
+                        document.getElementById('sfToolbarClearer-' + token).style.display = 'block';
+                        elem.style.display = 'none'
+                    }
+
+                    setPreference('toolbar/displayState', 'block');
+                });
+            },
+
             loadToolbar: function(token, newToken) {
+                var that = this;
+                var triesCounter = document.getElementById('sfLoadCounter-' + token);
+
+                var options = {
+                    retry: true,
+                    onSend: function (count) {
+                        if (count === 3) {
+                            that.initToolbar(token);
+                        }
+
+                        if (triesCounter) {
+                            triesCounter.textContent = count;
+                        }
+                    },
+                };
+
+                var cancelButton = document.getElementById('sfLoadCancel-' + token);
+                if (cancelButton) {
+                    addEventListener(cancelButton, 'click', function (event) {
+                        event.preventDefault();
+
+                        options.stop = true;
+                        that.hideToolbar(token);
+                    });
+                }
+
                 newToken = (newToken || token);
+
                 this.load(
                     'sfwdt' + token,
                     '{{ route("telescope-toolbar.render", ["token" => "xxxxxx"]) }}'.replace(/xxxxxx/, newToken),
                     function(xhr, el) {
+                        /* Do nothing in the edge case where the toolbar has already been replaced with a new one */
+                        if (!document.getElementById('sfToolbarMainContent-' + newToken)) {
+                            return;
+                        }
 
                         /* Evaluate in global scope scripts embedded inside the toolbar */
                         var i, scripts = [].slice.call(el.querySelectorAll('script'));
@@ -458,15 +570,7 @@
                             return;
                         }
 
-                        if (getPreference('toolbar/displayState') == 'none') {
-                            document.getElementById('sfToolbarMainContent-' + newToken).style.display = 'none';
-                            document.getElementById('sfToolbarClearer-' + newToken).style.display = 'none';
-                            document.getElementById('sfMiniToolbar-' + newToken).style.display = 'block';
-                        } else {
-                            document.getElementById('sfToolbarMainContent-' + newToken).style.display = 'block';
-                            document.getElementById('sfToolbarClearer-' + newToken).style.display = 'block';
-                            document.getElementById('sfMiniToolbar-' + newToken).style.display = 'none';
-                        }
+                        that.initToolbar(newToken);
 
                         /* Handle toolbar-info position */
                         var toolbarBlocks = [].slice.call(el.querySelectorAll('.sf-toolbar-block'));
@@ -494,32 +598,14 @@
                                 }
                             };
                         }
-                        addEventListener(document.getElementById('sfToolbarHideButton-' + newToken), 'click', function (event) {
-                            event.preventDefault();
 
-                            var p = this.parentNode;
-                            p.style.display = 'none';
-                            (p.previousElementSibling || p.previousSibling).style.display = 'none';
-                            document.getElementById('sfMiniToolbar-' + newToken).style.display = 'block';
-                            setPreference('toolbar/displayState', 'none');
-                        });
-                        addEventListener(document.getElementById('sfToolbarMiniToggler-' + newToken), 'click', function (event) {
-                            event.preventDefault();
-
-                            var elem = this.parentNode;
-                            if (elem.style.display == 'none') {
-                                document.getElementById('sfToolbarMainContent-' + newToken).style.display = 'none';
-                                document.getElementById('sfToolbarClearer-' + newToken).style.display = 'none';
-                                elem.style.display = 'block';
-                            } else {
-                                document.getElementById('sfToolbarMainContent-' + newToken).style.display = 'block';
-                                document.getElementById('sfToolbarClearer-' + newToken).style.display = 'block';
-                                elem.style.display = 'none'
-                            }
-
-                            setPreference('toolbar/displayState', 'block');
-                        });
                         renderAjaxRequests();
+                        addEventListener(document.querySelector('.sf-toolbar-ajax-clear'), 'click', function() {
+                            requestStack = [];
+                            renderAjaxRequests();
+                            successStreak = 4;
+                            document.querySelector('.sf-toolbar-ajax-request-list').innerHTML = '';
+                        });
                         addEventListener(document.querySelector('.sf-toolbar-block-ajax'), 'mouseenter', function (event) {
                             var elem = document.querySelector('.sf-toolbar-block-ajax .sf-toolbar-info');
                             elem.scrollTop = elem.scrollHeight;
@@ -541,13 +627,12 @@
                         }
                     },
                     function(xhr) {
-                        if (xhr.status !== 0) {
+                        if (xhr.status !== 0 && !options.stop) {
                             var errorMessage = 'An ' + xhr.status + ' error occurred while loading the Telescope Toolbar. Make sure you configured/installed Telescope correctly.';
                             if (xhr.status === 401 || xhr.status === 403) {
                                 errorMessage = 'You are unauthorized to view Telescope Requests';
                             }
-                            var sfwdt = document.getElementById('sfwdt' + token);
-                            var url = '{{ route("telescope") }}';
+                            var sfwdt = that.getSfwdt(token);
                             sfwdt.innerHTML = '\
                                 <div class="sf-toolbarreset">\
                                     <div class="sf-toolbar-icon"><svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80"><path fill="#AAA" d="M0 40a39.87 39.87 0 0 1 11.72-28.28A40 40 0 1 1 0 40zm34 10a4 4 0 0 1-4-4v-2a2 2 0 1 0-4 0v2a4 4 0 0 1-4 4h-2a2 2 0 1 0 0 4h2a4 4 0 0 1 4 4v2a2 2 0 1 0 4 0v-2a4 4 0 0 1 4-4h2a2 2 0 1 0 0-4h-2zm24-24a6 6 0 0 1-6-6v-3a3 3 0 0 0-6 0v3a6 6 0 0 1-6 6h-3a3 3 0 0 0 0 6h3a6 6 0 0 1 6 6v3a3 3 0 0 0 6 0v-3a6 6 0 0 1 6-6h3a3 3 0 0 0 0-6h-3zm-4 36a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM21 28a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"></path>\</svg></div>\
@@ -557,7 +642,7 @@
                             sfwdt.setAttribute('class', 'sf-toolbar sf-error-toolbar');
                         }
                     },
-                    { maxTries: 5 }
+                    options
                 );
 
                 return this;
@@ -576,247 +661,9 @@
 
                 return this;
             },
-
-            createTabs: function() {
-                var tabGroups = document.querySelectorAll('.sf-tabs:not([data-processed=true])');
-
-                /* create the tab navigation for each group of tabs */
-                for (var i = 0; i < tabGroups.length; i++) {
-                    var tabs = tabGroups[i].querySelectorAll(':scope > .tab');
-                    var tabNavigation = document.createElement('ul');
-                    tabNavigation.className = 'tab-navigation';
-
-                    var selectedTabId = 'tab-' + i + '-0'; /* select the first tab by default */
-                    for (var j = 0; j < tabs.length; j++) {
-                        var tabId = 'tab-' + i + '-' + j;
-                        var tabTitle = tabs[j].querySelector('.tab-title').innerHTML;
-
-                        var tabNavigationItem = document.createElement('li');
-                        tabNavigationItem.setAttribute('data-tab-id', tabId);
-                        if (hasClass(tabs[j], 'active')) { selectedTabId = tabId; }
-                        if (hasClass(tabs[j], 'disabled')) { addClass(tabNavigationItem, 'disabled'); }
-                        tabNavigationItem.innerHTML = tabTitle;
-                        tabNavigation.appendChild(tabNavigationItem);
-
-                        var tabContent = tabs[j].querySelector('.tab-content');
-                        tabContent.parentElement.setAttribute('id', tabId);
-                    }
-
-                    tabGroups[i].insertBefore(tabNavigation, tabGroups[i].firstChild);
-                    addClass(document.querySelector('[data-tab-id="' + selectedTabId + '"]'), 'active');
-                }
-
-                /* display the active tab and add the 'click' event listeners */
-                for (i = 0; i < tabGroups.length; i++) {
-                    tabNavigation = tabGroups[i].querySelectorAll(':scope > .tab-navigation li');
-
-                    for (j = 0; j < tabNavigation.length; j++) {
-                        tabId = tabNavigation[j].getAttribute('data-tab-id');
-                        document.getElementById(tabId).querySelector('.tab-title').className = 'hidden';
-
-                        if (hasClass(tabNavigation[j], 'active')) {
-                            document.getElementById(tabId).className = 'block';
-                        } else {
-                            document.getElementById(tabId).className = 'hidden';
-                        }
-
-                        tabNavigation[j].addEventListener('click', function(e) {
-                            var activeTab = e.target || e.srcElement;
-
-                            /* needed because when the tab contains HTML contents, user can click */
-                            /* on any of those elements instead of their parent '<li>' element */
-                            while (activeTab.tagName.toLowerCase() !== 'li') {
-                                activeTab = activeTab.parentNode;
-                            }
-
-                            /* get the full list of tabs through the parent of the active tab element */
-                            var tabNavigation = activeTab.parentNode.children;
-                            for (var k = 0; k < tabNavigation.length; k++) {
-                                var tabId = tabNavigation[k].getAttribute('data-tab-id');
-                                document.getElementById(tabId).className = 'hidden';
-                                removeClass(tabNavigation[k], 'active');
-                            }
-
-                            addClass(activeTab, 'active');
-                            var activeTabId = activeTab.getAttribute('data-tab-id');
-                            document.getElementById(activeTabId).className = 'block';
-                        });
-                    }
-
-                    tabGroups[i].setAttribute('data-processed', 'true');
-                }
-            },
-
-            createToggles: function() {
-                var toggles = document.querySelectorAll('.sf-toggle:not([data-processed=true])');
-
-                for (var i = 0; i < toggles.length; i++) {
-                    var elementSelector = toggles[i].getAttribute('data-toggle-selector');
-                    var element = document.querySelector(elementSelector);
-
-                    addClass(element, 'sf-toggle-content');
-
-                    if (toggles[i].hasAttribute('data-toggle-initial') && toggles[i].getAttribute('data-toggle-initial') == 'display') {
-                        addClass(toggles[i], 'sf-toggle-on');
-                        addClass(element, 'sf-toggle-visible');
-                    } else {
-                        addClass(toggles[i], 'sf-toggle-off');
-                        addClass(element, 'sf-toggle-hidden');
-                    }
-
-                    addEventListener(toggles[i], 'click', function(e) {
-                        e.preventDefault();
-
-                        if ('' !== window.getSelection().toString()) {
-                            /* Don't do anything on text selection */
-                            return;
-                        }
-
-                        var toggle = e.target || e.srcElement;
-
-                        /* needed because when the toggle contains HTML contents, user can click */
-                        /* on any of those elements instead of their parent '.sf-toggle' element */
-                        while (!hasClass(toggle, 'sf-toggle')) {
-                            toggle = toggle.parentNode;
-                        }
-
-                        var element = document.querySelector(toggle.getAttribute('data-toggle-selector'));
-
-                        toggleClass(toggle, 'sf-toggle-on');
-                        toggleClass(toggle, 'sf-toggle-off');
-                        toggleClass(element, 'sf-toggle-hidden');
-                        toggleClass(element, 'sf-toggle-visible');
-
-                        /* the toggle doesn't change its contents when clicking on it */
-                        if (!toggle.hasAttribute('data-toggle-alt-content')) {
-                            return;
-                        }
-
-                        if (!toggle.hasAttribute('data-toggle-original-content')) {
-                            toggle.setAttribute('data-toggle-original-content', toggle.innerHTML);
-                        }
-
-                        var currentContent = toggle.innerHTML;
-                        var originalContent = toggle.getAttribute('data-toggle-original-content');
-                        var altContent = toggle.getAttribute('data-toggle-alt-content');
-                        toggle.innerHTML = currentContent !== altContent ? altContent : originalContent;
-                    });
-
-                    /* Prevents from disallowing clicks on links inside toggles */
-                    var toggleLinks = toggles[i].querySelectorAll('a');
-                    for (var j = 0; j < toggleLinks.length; j++) {
-                        addEventListener(toggleLinks[j], 'click', function(e) {
-                            e.stopPropagation();
-                        });
-                    }
-
-                    toggles[i].setAttribute('data-processed', 'true');
-                }
-            },
-
-            createFilters: function() {
-                document.querySelectorAll('[data-filters] [data-filter]').forEach(function (filter) {
-                    var filters = filter.closest('[data-filters]'),
-                        type = 'choice',
-                        name = filter.dataset.filter,
-                        ucName = name.charAt(0).toUpperCase()+name.slice(1),
-                        list = document.createElement('ul'),
-                        values = filters.dataset['filter'+ucName] || filters.querySelectorAll('[data-filter-'+name+']'),
-                        labels = {},
-                        defaults = null,
-                        indexed = {},
-                        processed = {};
-                    if (typeof values === 'string') {
-                        type = 'level';
-                        labels = values.split(',');
-                        values = values.toLowerCase().split(',');
-                        defaults = values.length - 1;
-                    }
-                    addClass(list, 'filter-list');
-                    addClass(list, 'filter-list-'+type);
-                    values.forEach(function (value, i) {
-                        if (value instanceof HTMLElement) {
-                            value = value.dataset['filter'+ucName];
-                        }
-                        if (value in processed) {
-                            return;
-                        }
-                        var option = document.createElement('li'),
-                            label = i in labels ? labels[i] : value,
-                            active = false,
-                            matches;
-                        if ('' === label) {
-                            option.innerHTML = '<em>(none)</em>';
-                        } else {
-                            option.innerText = label;
-                        }
-                        option.dataset.filter = value;
-                        option.setAttribute('title', 1 === (matches = filters.querySelectorAll('[data-filter-'+name+'="'+value+'"]').length) ? 'Matches 1 row' : 'Matches '+matches+' rows');
-                        indexed[value] = i;
-                        list.appendChild(option);
-                        addEventListener(option, 'click', function () {
-                            if ('choice' === type) {
-                                filters.querySelectorAll('[data-filter-'+name+']').forEach(function (row) {
-                                    if (option.dataset.filter === row.dataset['filter'+ucName]) {
-                                        toggleClass(row, 'filter-hidden-'+name);
-                                    }
-                                });
-                                toggleClass(option, 'active');
-                            } else if ('level' === type) {
-                                if (i === this.parentNode.querySelectorAll('.active').length - 1) {
-                                    return;
-                                }
-                                this.parentNode.querySelectorAll('li').forEach(function (currentOption, j) {
-                                    if (j <= i) {
-                                        addClass(currentOption, 'active');
-                                        if (i === j) {
-                                            addClass(currentOption, 'last-active');
-                                        } else {
-                                            removeClass(currentOption, 'last-active');
-                                        }
-                                    } else {
-                                        removeClass(currentOption, 'active');
-                                        removeClass(currentOption, 'last-active');
-                                    }
-                                });
-                                filters.querySelectorAll('[data-filter-'+name+']').forEach(function (row) {
-                                    if (i < indexed[row.dataset['filter'+ucName]]) {
-                                        addClass(row, 'filter-hidden-'+name);
-                                    } else {
-                                        removeClass(row, 'filter-hidden-'+name);
-                                    }
-                                });
-                            }
-                        });
-                        if ('choice' === type) {
-                            active = null === defaults || 0 <= defaults.indexOf(value);
-                        } else if ('level' === type) {
-                            active = i <= defaults;
-                            if (active && i === defaults) {
-                                addClass(option, 'last-active');
-                            }
-                        }
-                        if (active) {
-                            addClass(option, 'active');
-                        } else {
-                            filters.querySelectorAll('[data-filter-'+name+'="'+value+'"]').forEach(function (row) {
-                                toggleClass(row, 'filter-hidden-'+name);
-                            });
-                        }
-                        processed[value] = true;
-                    });
-
-                    if (1 < list.childNodes.length) {
-                        filter.appendChild(list);
-                        filter.dataset.filtered = '';
-                    }
-                });
-            }
         };
     })();
+}
+/*]]>*/</script>
 
-    Sfjs.addEventListener(document, 'DOMContentLoaded', function() {
-        Sfjs.createTabs();
-        Sfjs.createToggles();
-    });
-</script>
+
