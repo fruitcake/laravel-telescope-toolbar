@@ -51,3 +51,7 @@
     max-height: 18px;
     margin-top: 4px;
 }
+.sf-toolbar-block-config svg path,
+.sf-toolbar-block-config svg .sf-svg-path {
+    fill: #FF2929;
+}

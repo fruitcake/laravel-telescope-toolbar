@@ -1,6 +1,3 @@
-.sf-minitoolbar {
-    background-color: #3439BC;
-}
 
 .sf-toolbarreset {
     background-color: #EEF1F3;
@@ -8,8 +5,9 @@
     color: #212529;
 }
 
-.sf-toolbarreset .hide-button {
-    background: #3439BC;
+.sf-toolbarreset .hide-button, .sf-toolbarreset .hide-button:hover {
+    background: #EEF1F3;
+    color: var(--sf-toolbar-gray-800);
 }
 
 .sf-toolbar-block .sf-toolbar-value {
@@ -52,11 +50,6 @@ div.sf-toolbar .sf-toolbar-block .sf-toolbar-info-piece a {
 
 .sf-toolbar-block .sf-toolbar-status {
     background-color: #212529;
-    border-radius: 9999px;
-}
-
-.sf-toolbar-icon .sf-toolbar-status {
-    border-radius: 0px;
 }
 
 .sf-toolbar-block .sf-toolbar-status-green {
@@ -81,6 +74,10 @@ div.sf-toolbar .sf-toolbar-block .sf-toolbar-info-piece a {
 
 .sf-toolbar-block.sf-toolbar-status-yellow {
     background-color: #D69E2E;
+}
+
+.sf-toolbar-block .sf-toolbar-icon {
+    color: var(--sf-toolbar-gray-800);
 }
 
 .sf-toolbar-block:hover .sf-toolbar-icon,

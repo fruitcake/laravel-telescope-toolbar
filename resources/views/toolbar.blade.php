@@ -3,14 +3,14 @@
 ?>
 
 <!-- START of Laravel Telescope Toolbar -->
-<div id="sfMiniToolbar-{{ $token }}" class="sf-minitoolbar" data-no-turbolink>
-    <a class="open-button" href="#" title="Show Telescope toolbar" tabindex="-1" id="sfToolbarMiniToggler-{{ $token }}" accesskey="D">
-        @ttIcon('telescope')
-    </a>
+<div id="sfMiniToolbar-{{ $token }}" class="sf-minitoolbar" data-no-turbolink data-turbo="false">
+    <button type="button" title="Show Telescope toolbar" tabindex="-1" id="sfToolbarMiniToggler-{{ $token }}" accesskey="D" aria-expanded="false" aria-controls="sfToolbarMainContent-{{ $token }}">
+        @ttIcon('laravel')
+    </button>
 </div>
 <div id="sfToolbarClearer-{{ $token }}" class="sf-toolbar-clearer"></div>
 
-<div id="sfToolbarMainContent-{{ $token }}" class="sf-toolbarreset clear-fix" data-no-turbolink>
+<div id="sfToolbarMainContent-{{ $token }}" class="sf-toolbarreset notranslate clear-fix" data-no-turbolink>
 
     @include("telescope-toolbar::collectors.ajax")
 
@@ -24,8 +24,8 @@
 
     @include("telescope-toolbar::collectors.config")
 
-    <a class="hide-button" id="sfToolbarHideButton-{{ $token }}" title="Close Toolbar" tabindex="-1" accesskey="D">
-        @ttIcon('telescope')
-    </a>
+    <button class="hide-button" type="button" id="sfToolbarHideButton-{{ $token }}" title="Close Toolbar" tabindex="-1" accesskey="D" aria-expanded="true" aria-controls="sfToolbarMainContent-{{ $token }}">
+        @ttIcon('close')
+    </button>
 </div>
 <!-- END of Laravel Telescope Toolbar -->

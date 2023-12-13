@@ -1,10 +1,9 @@
-@component('telescope-toolbar::item', ['name' => 'ajax', 'additional_classes' => 'sf-toolbar-block-right'])
+@component('telescope-toolbar::item', ['name' => 'config', 'additional_classes' => 'sf-toolbar-block-right'])
 
     @slot('icon')
 
-        <span class="sf-toolbar-label">
-             @ttIcon('laravel')
-        </span>
+        @ttIcon('laravel')
+
         <span class="sf-toolbar-value">{{ app()->version() }}</span>
 
     @endslot
@@ -26,7 +25,10 @@
                     <b>PHP version</b>
                     <span>{{ phpversion() }}</span>
                 </div>
-
+                <div class="sf-toolbar-info-piece sf-toolbar-info-php">
+                    <b>Laravel version</b>
+                    <span>{{ app()->version() }}</span>
+                </div>
             </div>
         </div>
 

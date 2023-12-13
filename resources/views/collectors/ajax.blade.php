@@ -13,7 +13,6 @@
                 <span class="sf-toolbar-header">
                     <b class="sf-toolbar-ajax-info"></b>
                     <b class="sf-toolbar-action">(<a class="sf-toolbar-ajax-clear" href="javascript:void(0);">Clear</a>)</b>
-                    <b class="sf-toolbar-action"><span class="sf-toolbar-ajax-replace-state">Auto</span> (<a class="sf-toolbar-ajax-replace-toggle" href="javascript:void(0);">Toggle</a>)</b>
                 </span>
         </div>
         <div class="sf-toolbar-info-piece">
