@@ -83,7 +83,7 @@ class Toolbar
         if ($request->ajax() || $request->headers->get('X-Livewire')) {
             $response->headers->set('x-debug-token', $this->getDebugToken($request));
             $response->headers->set('x-debug-token-link', route('telescope-toolbar.show', [$this->getDebugToken($request)]));
-
+            $response->headers->set('x-debug-toolbar-replace', config('telescope-toolbar.replace') ? 1 : 0);
             return;
         }
 

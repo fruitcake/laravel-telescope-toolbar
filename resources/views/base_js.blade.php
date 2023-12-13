@@ -129,7 +129,7 @@ if (typeof Sfjs === 'undefined' || typeof Sfjs.loadToolbar === 'undefined') {
             if (ret = allHeaders.match(/^x-debug-token-link:\s+(.*)$/im)) {
                 stackElement.profilerUrl = ret[1];
             }
-            if (ret = allHeaders.match(/^Symfony-Debug-Toolbar-Replace:\s+(.*)$/im)) {
+            if (ret = allHeaders.match(/^x-debug-toolbar-replace:\s+(.*)$/im)) {
                 stackElement.toolbarReplaceFinished = false;
                 stackElement.toolbarReplace = '1' === ret[1];
             }
@@ -146,7 +146,7 @@ if (typeof Sfjs === 'undefined' || typeof Sfjs.loadToolbar === 'undefined') {
 
             var infoSpan = document.querySelector(".sf-toolbar-ajax-info");
             if (infoSpan) {
-                infoSpan.textContent = requestStack.length + ' AJAX request' + (requestStack.length !== 1 ? 's' : '');
+                infoSpan.textContent = requestStack.length + ' request' + (requestStack.length !== 1 ? 's' : '');
             }
 
             var ajaxToolbarPanel = document.querySelector('.sf-toolbar-block-ajax');
@@ -295,6 +295,15 @@ if (typeof Sfjs === 'undefined' || typeof Sfjs.loadToolbar === 'undefined') {
                 var profilerLink = document.createElement('a');
                 profilerLink.setAttribute('href', request.profilerUrl);
                 profilerLink.textContent = request.profile;
+                profilerLink.addEventListener("click", function(e){
+                    e.preventDefault();
+                    for (var elem = request.DOMNode; elem && elem !== document; elem = elem.parentNode) {
+                        if (elem.id.match(/^sfwdt/)) {
+                            Sfjs.loadToolbar(elem.id.replace(/^sfwdt/, ''), request.profile);
+                            return false;
+                        }
+                    }
+                });
                 profilerCell.appendChild(profilerLink);
             }
 
@@ -343,7 +352,7 @@ if (typeof Sfjs === 'undefined' || typeof Sfjs.loadToolbar === 'undefined') {
                         stackElement.profile = r.headers.get('x-debug-token');
                         stackElement.profilerUrl = r.headers.get('x-debug-token-link');
                         stackElement.toolbarReplaceFinished = false;
-                        stackElement.toolbarReplace = '1' === r.headers.get('Symfony-Debug-Toolbar-Replace');
+                        stackElement.toolbarReplace = '1' === r.headers.get('x-debug-toolbar-replace');
                         finishAjaxRequest(idx);
                     }, function (e){
                         stackElement.error = true;

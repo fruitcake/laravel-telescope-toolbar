@@ -17,6 +17,17 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Telescope Auto Replace Requests
+    |--------------------------------------------------------------------------
+    |
+    | This options automatically replaces the content of the toolbar with new
+    | (AJAX) requests.
+    |
+    */
+    'replace' => env('TELESCOPE_TOOLBAR_REPLACE', true),
+
+    /*
+    |--------------------------------------------------------------------------
     | Use Telescope Theme ('light mode')
     |--------------------------------------------------------------------------
     |
