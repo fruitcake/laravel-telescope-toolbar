@@ -5,7 +5,7 @@
 <!-- START of Laravel Telescope Toolbar -->
 <div id="sfMiniToolbar-{{ $token }}" class="sf-minitoolbar" data-no-turbolink data-turbo="false">
     <button type="button" title="Show Telescope toolbar" tabindex="-1" id="sfToolbarMiniToggler-{{ $token }}" accesskey="D" aria-expanded="false" aria-controls="sfToolbarMainContent-{{ $token }}">
-        @ttIcon('telescope')
+        @ttIcon('laravel')
     </button>
 </div>
 <div id="sfToolbarClearer-{{ $token }}" class="sf-toolbar-clearer"></div>
@@ -25,7 +25,7 @@
     @include("telescope-toolbar::collectors.config")
 
     <button class="hide-button" type="button" id="sfToolbarHideButton-{{ $token }}" title="Close Toolbar" tabindex="-1" accesskey="D" aria-expanded="true" aria-controls="sfToolbarMainContent-{{ $token }}">
-        @ttIcon('telescope')
+        @ttIcon('close')
     </button>
 </div>
 <!-- END of Laravel Telescope Toolbar -->

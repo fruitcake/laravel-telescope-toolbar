@@ -1,6 +1,3 @@
-.sf-minitoolbar {
-    background-color: #3439BC;
-}
 
 .sf-toolbarreset {
     background-color: #EEF1F3;
@@ -8,8 +5,8 @@
     color: #212529;
 }
 
-.sf-toolbarreset .hide-button {
-    background: #3439BC;
+.sf-toolbarreset .hide-button, .sf-toolbarreset .hide-button:hover {
+    background: #EEF1F3;
 }
 
 .sf-toolbar-block .sf-toolbar-value {
