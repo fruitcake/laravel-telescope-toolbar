@@ -5,7 +5,7 @@
 
 
 ?>
-@component('telescope-toolbar::item', ['name' => 'events', 'link' => true])
+@component('telescope-toolbar::item', ['name' => 'events', 'link' => '#events'])
 
     @slot('icon')
         @ttIcon('events')

@@ -24,7 +24,7 @@ foreach ($entries as $entry) {
 $views = collect($views)->reverse();
 
 ?>
-@component('telescope-toolbar::item', ['name' => 'views', 'link' => true])
+@component('telescope-toolbar::item', ['name' => 'views', 'link' => '#views'])
 
     @slot('icon')
         @ttIcon('views')

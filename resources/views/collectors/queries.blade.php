@@ -23,7 +23,7 @@ if ($num_queries > 0 && $num_duplicated > $num_queries *.75) {
     $statusColor = null;
 }
 ?>
-@component('telescope-toolbar::item', ['name' => 'queries', 'link' => true, 'status' => $statusColor, 'additional_classes' => 'sf-toolbar-block-fullwidth'])
+@component('telescope-toolbar::item', ['name' => 'queries', 'link' => '#queries', 'status' => $statusColor, 'additional_classes' => 'sf-toolbar-block-fullwidth'])
 
     @slot('icon')
         @ttIcon('queries')
