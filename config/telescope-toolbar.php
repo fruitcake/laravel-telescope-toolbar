@@ -120,9 +120,9 @@ return [
     */
     'collectors' => [
         EntryType::REQUEST => [
+            'telescope-toolbar::collectors.request',
             'telescope-toolbar::collectors.time',
             'telescope-toolbar::collectors.memory',
-            'telescope-toolbar::collectors.request',
             'telescope-toolbar::collectors.session',
             'telescope-toolbar::collectors.user',
         ],
