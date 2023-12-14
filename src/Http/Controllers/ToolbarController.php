@@ -21,7 +21,7 @@ class ToolbarController extends Controller
     public function __construct(EntriesRepository $entriesRepository)
     {
         $this->entriesRepository = $entriesRepository;
-        
+
         $this->middleware(function($request, $next) {
             Telescope::stopRecording();
 
@@ -70,13 +70,13 @@ class ToolbarController extends Controller
 
     public function styling(Request $request)
     {
-        $files = [
-            'base.css',
-            'custom.css',
-        ];
-
         if ($request->get('lightMode')) {
-            $files[] = 'theme_light.css';
+            $files = ['theme_light.css'];
+        } else {
+            $files = [
+                'base.css',
+                'custom.css',
+            ];
         }
 
         $content = '';
