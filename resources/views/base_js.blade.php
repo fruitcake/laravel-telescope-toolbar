@@ -150,7 +150,7 @@ if (typeof Sfjs === 'undefined' || typeof Sfjs.loadToolbar === 'undefined') {
             }
 
             var ajaxToolbarPanel = document.querySelector('.sf-toolbar-block-ajax');
-            if (requestStack.length) {
+            if (requestStack.length > 1) {
                 ajaxToolbarPanel.style.display = 'block';
             } else {
                 ajaxToolbarPanel.style.display = 'none';

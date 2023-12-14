@@ -12,8 +12,6 @@
 
 <div id="sfToolbarMainContent-{{ $token }}" class="sf-toolbarreset notranslate clear-fix" data-no-turbolink>
 
-    @include("telescope-toolbar::collectors.ajax")
-
     @foreach (config('telescope-toolbar.collectors') as $type => $templates)
         @if(isset($entries[$type]))
             @foreach($templates as $template)
@@ -23,6 +21,7 @@
     @endforeach
 
     @include("telescope-toolbar::collectors.config")
+    @include("telescope-toolbar::collectors.ajax")
 
     <button class="hide-button" type="button" id="sfToolbarHideButton-{{ $token }}" title="Close Toolbar" tabindex="-1" accesskey="D" aria-expanded="true" aria-controls="sfToolbarMainContent-{{ $token }}">
         @ttIcon('close')
