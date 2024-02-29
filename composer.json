@@ -1,56 +1,64 @@
 {
-  "name": "fruitcake/laravel-telescope-toolbar",
-  "description": "Toolbar for Laravel Telescope based on Symfony Web Profiler",
-  "keywords": ["laravel", "telescope", "toolbar",  "debugbar", "profiler", "debug", "webprofiler"],
-  "license": "MIT",
-  "authors": [
-    {
-      "name": "Fruitcake",
-      "email": "info@fruitcake.nl"
+    "name": "fruitcake/laravel-telescope-toolbar",
+    "description": "Toolbar for Laravel Telescope based on Symfony Web Profiler",
+    "keywords": [
+        "laravel",
+        "telescope",
+        "toolbar",
+        "debugbar",
+        "profiler",
+        "debug",
+        "webprofiler"
+    ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Fruitcake",
+            "email": "info@fruitcake.nl"
+        },
+        {
+            "name": "Barry vd. Heuvel",
+            "email": "barryvdh@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^8",
+        "ext-json": "*",
+        "laravel/framework": "^9|^10|^11.0",
+        "laravel/telescope": "^4"
     },
-    {
-      "name": "Barry vd. Heuvel",
-      "email": "barryvdh@gmail.com"
-    }
-  ],
-  "require": {
-    "php": "^8",
-    "ext-json": "*",
-    "laravel/framework": "^9|^10",
-    "laravel/telescope": "^4"
-  },
-  "require-dev": {
-    "orchestra/testbench-dusk": "^6|^7|^8"
-  },
-  "autoload": {
-    "psr-4": {
-      "Fruitcake\\TelescopeToolbar\\": "src/"
+    "require-dev": {
+        "orchestra/testbench-dusk": "^6|^7|^8"
     },
-    "files": [
-      "src/helpers.php"
-    ]
-  },
-  "autoload-dev": {
-    "psr-4": {
-      "Fruitcake\\TelescopeToolbar\\Tests\\": "tests"
-    }
-  },
-  "minimum-stability": "dev",
-  "prefer-stable": true,
-  "extra": {
-    "branch-alias": {
-      "dev-master": "1.4-dev"
+    "autoload": {
+        "psr-4": {
+            "Fruitcake\\TelescopeToolbar\\": "src/"
+        },
+        "files": [
+            "src/helpers.php"
+        ]
     },
-    "laravel": {
-      "providers": [
-        "Fruitcake\\TelescopeToolbar\\ToolbarServiceProvider"
-      ],
-      "aliases": {
-        "Toolbar": "Fruitcake\\TelescopeToolbar\\Toolbar"
-      }
+    "autoload-dev": {
+        "psr-4": {
+            "Fruitcake\\TelescopeToolbar\\Tests\\": "tests"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.4-dev"
+        },
+        "laravel": {
+            "providers": [
+                "Fruitcake\\TelescopeToolbar\\ToolbarServiceProvider"
+            ],
+            "aliases": {
+                "Toolbar": "Fruitcake\\TelescopeToolbar\\Toolbar"
+            }
+        }
+    },
+    "scripts": {
+        "test": "phpunit"
     }
-  },
-  "scripts": {
-    "test": "phpunit"
-  }
 }
