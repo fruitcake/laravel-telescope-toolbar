@@ -6,56 +6,62 @@ on:
       - master
   pull_request:
     branches:
-      - "*"
+      - *
   schedule:
-  - cron: '0 0 * * *'
+    - cron: '0 0 * * *'
 
 jobs:
   php-tests:
     runs-on: ubuntu-latest
+
     timeout-minutes: 15
+
     env:
       COMPOSER_NO_INTERACTION: 1
 
     strategy:
       matrix:
         php: [8.2, 8.1, 8.0]
-        laravel: [10.*, 9.*]
+        laravel: ['9.*', '10.*', '11.*']
         dependency-version: [prefer-stable]
         exclude:
           - laravel: 10.*
+            php: 8.0
+          - laravel: 11.*
+            php: 8.1
+          - laravel: 11.*
             php: 8.0
 
     name: P${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.dependency-version }}
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-    - name: Setup PHP
-      uses: shivammathur/setup-php@v2
-      with:
-        php-version: ${{ matrix.php }}
-        coverage: none
-        tools: composer:v2
-        
-    - name: Install dependencies
-      run: |
-        composer require "laravel/framework:${{ matrix.laravel }}" --no-interaction --no-update
-        composer update --${{ matrix.dependency-version }} --prefer-dist --no-progress
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          coverage: none
+          tools: composer:v2
 
-    - name: Update Dusk Chromedriver
-      run: vendor/bin/dusk-updater detect --auto-update
+      - name: Install dependencies
+        run: |
+          composer require "laravel/framework:${{ matrix.laravel }}" --no-interaction --no-update
+          composer update --${{ matrix.dependency-version }} --prefer-dist --no-progress
 
-    - name: Install Sqlite Database
-      run: vendor/orchestra/testbench-dusk/create-sqlite-db
+      - name: Update Dusk Chromedriver
+        run: vendor/bin/dusk-updater detect --auto-update
 
-    - name: Execute Unit Tests
-      run: composer test
+      - name: Install Sqlite Database
+        run: vendor/orchestra/testbench-dusk/create-sqlite-db
 
-    - name: Upload Failed Screenshots
-      uses: actions/upload-artifact@v2-preview
-      if: failure()
-      with:
-        name: screenshots
-        path: tests/Browser/screenshots/*
+      - name: Execute Unit Tests
+        run: composer test
+
+      - name: Upload Failed Screenshots
+        uses: actions/upload-artifact@v2-preview
+        if: failure()
+        with:
+          name: screenshots
+          path: tests/Browser/screenshots/*
