@@ -37,7 +37,7 @@ return [
     | Values be: true, false or 'auto' (default)
     |
     */
-    'light_theme' => env('TELESCOPE_LIGHT_THEME', 'auto'),
+    'light_theme' => env('TELESCOPE_LIGHT_THEME', false),
 
     /*
     |--------------------------------------------------------------------------
