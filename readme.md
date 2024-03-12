@@ -16,6 +16,10 @@ First install Telescope and check it works (see https://laravel.com/docs/master/
 ```bash
 composer require laravel/telescope
 php artisan telescope:install
+
+# Telescope 5.0 no longer automatically loads migrations from its own migrations directory. Instead, you should run the following command to publish Telescope's migrations to your application:
+php artisan vendor:publish --tag=telescope-migrations
+
 php artisan migrate
 ```
 
