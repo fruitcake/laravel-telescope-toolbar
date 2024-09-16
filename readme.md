@@ -1,8 +1,8 @@
 ## Laravel Telescope Toolbar
 ![Unit Tests](https://github.com/fruitcake/laravel-telescope-toolbar/workflows/Unit%20Tests/badge.svg)
-[![Packagist License](https://poser.pugx.org/fruitcake/laravel-telescope-toolbar/license.png)](http://choosealicense.com/licenses/mit/)
-[![Latest Stable Version](https://poser.pugx.org/fruitcake/laravel-telescope-toolbar/version.png)](https://packagist.org/packages/fruitcake/laravel-telescope-toolbar)
-[![Total Downloads](https://poser.pugx.org/fruitcake/laravel-telescope-toolbar/d/total.png)](https://packagist.org/packages/fruitcake/laravel-telescope-toolbar)
+[![Packagist License](https://img.shields.io/badge/Licence-MIT-blue)](http://choosealicense.com/licenses/mit/)
+[![Latest Stable Version](https://img.shields.io/packagist/v/fruitcake/laravel-telescope-toolbar?label=Stable)](https://packagist.org/packages/fruitcake/laravel-telescope-toolbar)
+[![Total Downloads](https://img.shields.io/packagist/dt/fruitcake/laravel-telescope-toolbar?label=Downloads)](https://packagist.org/packages/fruitcake/laravel-telescope-toolbar)
 [![Fruitcake](https://img.shields.io/badge/Powered%20By-Fruitcake-b2bc35.svg)](https://fruitcake.nl/)
 
 
