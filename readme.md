@@ -99,5 +99,5 @@ JS/CSS is mostly copied and converted to Blade syntax. Collectors are modified t
 See https://github.com/symfony/web-profiler-bundle - Copyright (c) 2004-2019 Fabien Potencier
 
 Data from collectors is provided by Laravel Telescope. Some styling/icons/logic are alse re-used.
-See https://github.com/laravel/telescope - Copyright (c) Taylor Otwell
+See https://github.com/laravel/telescope - &copy; Taylor Otwell
                                          
