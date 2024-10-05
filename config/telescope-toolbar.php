@@ -180,7 +180,9 @@ return [
         EntryType::REDIS => [
             'telescope-toolbar::collectors.redis',
         ],
-        EntryType::SCHEDULED_TASK => [],
+        EntryType::SCHEDULED_TASK => [
+    
+        ],
     ],
 
 ];
