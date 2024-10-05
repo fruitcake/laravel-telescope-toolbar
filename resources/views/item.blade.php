@@ -8,7 +8,7 @@
                 $link = $ttLink . $link;
             }
         @endphp
-        <a href="{{ $link }}">
+        <a href="{{ $link }}" {{ config('telescope-toolbar.new_tab') ? 'target="_blank"' : '' }}>
     @endif
         <div class="sf-toolbar-icon">{{ $icon ?? '' }}</div>
         @if(isset($link) && $link)</a>@endif

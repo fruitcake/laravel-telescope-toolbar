@@ -41,6 +41,18 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Open links in new tab
+    |--------------------------------------------------------------------------
+    |
+    | This option enabled/disables opening telescope links in a new tab.
+    | By default, clicking on a tab will open telescope in the same tab.
+    | Values be: true, false
+    |
+    */
+    'new_tab' => env('TELESCOPE_TOOLBAR_NEW_TAB', false),
+
+    /*
+    |--------------------------------------------------------------------------
     | Route path of Toolbar
     |--------------------------------------------------------------------------
     |
@@ -168,9 +180,7 @@ return [
         EntryType::REDIS => [
             'telescope-toolbar::collectors.redis',
         ],
-        EntryType::SCHEDULED_TASK => [
-
-        ],
+        EntryType::SCHEDULED_TASK => [],
     ],
 
 ];
