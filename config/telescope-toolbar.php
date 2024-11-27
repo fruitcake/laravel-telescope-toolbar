@@ -33,8 +33,8 @@ return [
     |
     | This option enabled/disables the Light Theme.
     | Laravel Telescope toolbar has two themes; Light and Dark.
-    | By default is uses the preferred color scheme of the browser.
-    | Values be: true, false or 'auto' (default)
+    | By default is uses dark theme.
+    | Values be: 'auto', true, or false (default)
     |
     */
     'light_theme' => env('TELESCOPE_LIGHT_THEME', false),
