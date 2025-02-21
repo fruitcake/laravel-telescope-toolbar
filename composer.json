@@ -28,7 +28,7 @@
         "laravel/telescope": "^4|^5"
     },
     "require-dev": {
-        "orchestra/testbench-dusk": "^6|^7|^8|^9"
+        "orchestra/testbench-dusk": "^6|^7|^8|^9|^10"
     },
     "autoload": {
         "psr-4": {
