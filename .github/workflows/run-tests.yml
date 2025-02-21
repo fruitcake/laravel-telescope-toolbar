@@ -59,6 +59,9 @@ jobs:
       - name: Update Dusk Chromedriver
         run: vendor/bin/dusk-updater detect --auto-update
 
+      - name: Install Sqlite Database
+        run: vendor/bin/testbench-dusk package:create-sqlite-db
+
       - name: Execute Unit Tests
         run: composer test
 
