@@ -24,11 +24,11 @@
     "require": {
         "php": "^8",
         "ext-json": "*",
-        "laravel/framework": "^9|^10|^11|^12",
+        "laravel/framework": "^9|^10|^11|^12|^13.0",
         "laravel/telescope": "^4|^5"
     },
     "require-dev": {
-        "orchestra/testbench-dusk": "^6|^7|^8|^9|^10"
+        "orchestra/testbench-dusk": "^6|^7|^8|^9|^10|^11"
     },
     "autoload": {
         "psr-4": {
